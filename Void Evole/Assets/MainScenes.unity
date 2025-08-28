@@ -223,6 +223,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 58267161445398835, guid: df8cd5945b8b9b24681a1ed065d0e79a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 987789805417710372, guid: df8cd5945b8b9b24681a1ed065d0e79a, type: 3}
       propertyPath: m_Name
       value: Player
@@ -293,6 +297,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 8278916045946012794, guid: 41d5b59de1616aa42a44bb2deaaab972, type: 3}
+  fireRate: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
