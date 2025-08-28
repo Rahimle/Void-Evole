@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8984277518177751305}
   - component: {fileID: 7969787455982525004}
   - component: {fileID: 2419294329447123325}
-  - component: {fileID: 6128716123834401664}
+  - component: {fileID: 8989148500405268399}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -160,7 +160,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &6128716123834401664
+--- !u!114 &8989148500405268399
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -173,8 +173,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  projectilePrefab: {fileID: 0}
-  firePoint: {fileID: 1804456163222415947}
+  projectilePrefab: {fileID: 2647594753276020516, guid: 458006245c7c6864f8db9db6bc367c79, type: 3}
+  firePoint: {fileID: 3147851331436649483, guid: f27bc2f2bd8baee489adc10523ff06a3, type: 3}
   fireRate: 0.3
 --- !u!1001 &3649566384253793856
 PrefabInstance:
