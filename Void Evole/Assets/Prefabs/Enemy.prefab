@@ -1,0 +1,224 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+<<<<<<< HEAD:My project/Assets/Prefabs/Enemy.prefab
+--- !u!1 &3542642077120740219
+=======
+--- !u!1 &2914278348562807874
+>>>>>>> f79e9da7bd9db9f01f9a9ec0eb43816917b3e0b1:Void Evole/Assets/Prefabs/Enemy.prefab
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+<<<<<<< HEAD:My project/Assets/Prefabs/Enemy.prefab
+  - component: {fileID: 4963711710604386480}
+  - component: {fileID: 46110378522233769}
+  - component: {fileID: 5573665253973842687}
+  - component: {fileID: 448277636629205711}
+  - component: {fileID: 3191017804520859933}
+  m_Layer: 0
+  m_Name: Enemy
+  m_TagString: Enemy
+=======
+  - component: {fileID: 8098987230879684434}
+  - component: {fileID: 5589704798048451513}
+  - component: {fileID: -6476278148331308490}
+  - component: {fileID: 3980342150248022859}
+  m_Layer: 0
+  m_Name: Enemy
+  m_TagString: Untagged
+>>>>>>> f79e9da7bd9db9f01f9a9ec0eb43816917b3e0b1:Void Evole/Assets/Prefabs/Enemy.prefab
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+<<<<<<< HEAD:My project/Assets/Prefabs/Enemy.prefab
+--- !u!4 &4963711710604386480
+=======
+--- !u!4 &8098987230879684434
+>>>>>>> f79e9da7bd9db9f01f9a9ec0eb43816917b3e0b1:Void Evole/Assets/Prefabs/Enemy.prefab
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD:My project/Assets/Prefabs/Enemy.prefab
+  m_GameObject: {fileID: 3542642077120740219}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 4, z: 0}
+=======
+  m_GameObject: {fileID: 2914278348562807874}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+>>>>>>> f79e9da7bd9db9f01f9a9ec0eb43816917b3e0b1:Void Evole/Assets/Prefabs/Enemy.prefab
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< HEAD:My project/Assets/Prefabs/Enemy.prefab
+--- !u!212 &46110378522233769
+=======
+--- !u!212 &5589704798048451513
+>>>>>>> f79e9da7bd9db9f01f9a9ec0eb43816917b3e0b1:Void Evole/Assets/Prefabs/Enemy.prefab
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD:My project/Assets/Prefabs/Enemy.prefab
+  m_GameObject: {fileID: 3542642077120740219}
+=======
+  m_GameObject: {fileID: 2914278348562807874}
+>>>>>>> f79e9da7bd9db9f01f9a9ec0eb43816917b3e0b1:Void Evole/Assets/Prefabs/Enemy.prefab
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+<<<<<<< HEAD:My project/Assets/Prefabs/Enemy.prefab
+  m_Sprite: {fileID: -2413806693520163455, guid: 26a25c99366e66d4cb7bdd9949e9028c, type: 3}
+=======
+  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+>>>>>>> f79e9da7bd9db9f01f9a9ec0eb43816917b3e0b1:Void Evole/Assets/Prefabs/Enemy.prefab
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+<<<<<<< HEAD:My project/Assets/Prefabs/Enemy.prefab
+--- !u!50 &5573665253973842687
+=======
+--- !u!50 &-6476278148331308490
+>>>>>>> f79e9da7bd9db9f01f9a9ec0eb43816917b3e0b1:Void Evole/Assets/Prefabs/Enemy.prefab
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD:My project/Assets/Prefabs/Enemy.prefab
+  m_GameObject: {fileID: 3542642077120740219}
+=======
+  m_GameObject: {fileID: 2914278348562807874}
+>>>>>>> f79e9da7bd9db9f01f9a9ec0eb43816917b3e0b1:Void Evole/Assets/Prefabs/Enemy.prefab
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+<<<<<<< HEAD:My project/Assets/Prefabs/Enemy.prefab
+--- !u!58 &448277636629205711
+=======
+--- !u!58 &3980342150248022859
+>>>>>>> f79e9da7bd9db9f01f9a9ec0eb43816917b3e0b1:Void Evole/Assets/Prefabs/Enemy.prefab
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD:My project/Assets/Prefabs/Enemy.prefab
+  m_GameObject: {fileID: 3542642077120740219}
+=======
+  m_GameObject: {fileID: 2914278348562807874}
+>>>>>>> f79e9da7bd9db9f01f9a9ec0eb43816917b3e0b1:Void Evole/Assets/Prefabs/Enemy.prefab
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+<<<<<<< HEAD:My project/Assets/Prefabs/Enemy.prefab
+  m_IsTrigger: 0
+=======
+  m_IsTrigger: 1
+>>>>>>> f79e9da7bd9db9f01f9a9ec0eb43816917b3e0b1:Void Evole/Assets/Prefabs/Enemy.prefab
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
+<<<<<<< HEAD:My project/Assets/Prefabs/Enemy.prefab
+--- !u!114 &3191017804520859933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3542642077120740219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a17bc8cf81a335e4b8b42c763f64cc1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 2
+=======
+>>>>>>> f79e9da7bd9db9f01f9a9ec0eb43816917b3e0b1:Void Evole/Assets/Prefabs/Enemy.prefab
