@@ -23,9 +23,19 @@ public class ProjectileController : MonoBehaviour
          */
         transform.Translate(Vector2.up * speed *  Time.deltaTime);
         // neu dan qua pham vi 10 don vi thi tu huy
-        if(transform.position.y > 10f)
+        if(transform.position.x > 10f)
         {
             Destroy(gameObject);
+        }
+    }
+
+    // ham va cham voi enemy
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.CompareTag("Enemy")) // kiem tra doi tuong co la Enemy ko
+        {
+            Destroy(collision.gameObject);// huy doi tuong
+            Destroy(gameObject);// huy vien dan
         }
     }
 }

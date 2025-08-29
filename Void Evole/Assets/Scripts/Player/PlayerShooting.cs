@@ -40,7 +40,7 @@ public class PlayerShooting : MonoBehaviour
     void Shooting()
     {
         // vi tri xuat hien cua dan nam tren player 1 don vi
-        Vector3 spawnPoint = transform.position + new Vector3(0, 1f, 0);
-        Instantiate(projectilePrefab,spawnPoint, Quaternion.identity);
+        Vector3 spawnPoint = transform.position + new Vector3(1f, 0, 0);
+        Instantiate(projectilePrefab,spawnPoint, Quaternion.Euler(0,0,-90));
     }
 }
