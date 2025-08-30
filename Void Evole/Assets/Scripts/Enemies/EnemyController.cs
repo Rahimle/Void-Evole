@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    public float speed = 1.5f;// bien luu toc do quai
+    public float speed = 0.5f;// bien luu toc do quai
     private Transform playerTransform; // bien luu vi tri nguoi choi
 
     // Start is called before the first frame update

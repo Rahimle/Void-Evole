@@ -168,8 +168,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 2659654693268088837, guid: 4f7863dfefa9580438034e2419f7ffd2, type: 3}
-  spawnBetweenWaves: 10
-  enemiesQuantity: 5
+  spawnBetweenWaves: 5
+  enemiesQuantity: 3
 --- !u!1 &470806742 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 987789805417710372, guid: df8cd5945b8b9b24681a1ed065d0e79a, type: 3}
@@ -188,7 +188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 8278916045946012794, guid: 41d5b59de1616aa42a44bb2deaaab972, type: 3}
-  fireRate: 1.75
+  fireRate: 1.5
 --- !u!1001 &1044540111
 PrefabInstance:
   m_ObjectHideFlags: 0

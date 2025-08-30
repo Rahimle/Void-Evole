@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class ProjectileController : MonoBehaviour
 {
-    // toc do di chuyen cua dan
-    public float speed = 10f;
+    public float speed = 10f; // toc do di chuyen cua dan
 
     // Start is called before the first frame update
     void Start()
@@ -21,9 +20,11 @@ public class ProjectileController : MonoBehaviour
          * Vector2.up la 1 vector luon huong len tren
          * speed * Time.deltaTime = quan duong di duoc trong 1 khung hinh
          */
+        // di chuyen dan theo huong co dinh da tinh
         transform.Translate(Vector2.up * speed *  Time.deltaTime);
-        // neu dan qua pham vi 10 don vi thi tu huy
-        if(transform.position.x > 10f)
+
+        // neu dan qua pham vi qua xa thi tu huy
+        if(transform.position.x > 10f || transform.position.y > 6f || transform.position.y < -6f)
         {
             Destroy(gameObject);
         }
@@ -32,7 +33,7 @@ public class ProjectileController : MonoBehaviour
     // ham va cham voi enemy
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Enemy")) // kiem tra doi tuong co la Enemy ko
+        if (collision.gameObject.CompareTag("Enemy")) // kiem tra doi tuong co la Enemy ko
         {
             Destroy(collision.gameObject);// huy doi tuong
             Destroy(gameObject);// huy vien dan
