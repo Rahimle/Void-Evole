@@ -5,9 +5,12 @@ using UnityEngine;
 public class PlayerShooting : MonoBehaviour
 {
     public GameObject projectilePrefab;// bien luu tru Prefab dan
-    public float fireRate = 0.2f; // toc do ban 1 vien / 0.2 giay
+    public float fireRate = 0.5f; // toc do ban 1 vien / 0.5 giay
+    public float aimingTime = 1f; // toc do ngam
+
     private float fireTimer = 0f; // bien dem time sau khi vien dan ban ra
     private bool isShooting = false; // trang thai ban la false
+    private GameObject targetEnemy; // bien luu muc tieu
 
     // Start is called before the first frame update
     void Start()
@@ -29,18 +32,54 @@ public class PlayerShooting : MonoBehaviour
             fireTimer = fireTimer + Time.deltaTime; // so dem ++
 
             // kiem tra thoi gian ban 
-            if(fireTimer >= fireRate)
+            if (fireTimer >= aimingTime) // aimmingTime de kiem soat thoi gian ban
             {
-                Shooting();// goi ham ban
-                fireTimer = 0f; // reset dem = 0
+                targetEnemy = FindNearestEnemy(); // ham tim muc tieu gan nhat
+
+                if(targetEnemy != null)
+                {
+                    Shooting();
+                }
+                fireTimer = 0f;// reset bo dem time
             }
         }
     }
 
     void Shooting()
     {
-        // vi tri xuat hien cua dan nam tren player 1 don vi
+        // vi tri xuat hien cua dan nam gan player 1 don vi
         Vector3 spawnPoint = transform.position + new Vector3(1f, 0, 0);
-        Instantiate(projectilePrefab,spawnPoint, Quaternion.Euler(0,0,-90));
+
+        GameObject projectileInstance = Instantiate(projectilePrefab, spawnPoint, Quaternion.Euler(1f, 0, 0));
+
+        // truyen vi tri cho vien dan
+        ProjectileController projectileScript = projectileInstance.GetComponent<ProjectileController>();
+        if (projectileScript != null && targetEnemy != null)
+        {
+            // truyen toan bo GameObject cua muc tieu
+            projectileScript.SetTarget(targetEnemy);
+        }
+    }
+
+    // ham tim enemy 
+    GameObject FindNearestEnemy()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject nearest = null;
+        float minDistance = Mathf.Infinity;
+
+        if (enemies.Length > 0)
+        {
+            foreach (GameObject enemy in enemies)
+            {
+                float distance = Vector2.Distance(transform.position, enemy.transform.position);
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    nearest = enemy;
+                }
+            }
+        }
+        return nearest;
     }
 }
