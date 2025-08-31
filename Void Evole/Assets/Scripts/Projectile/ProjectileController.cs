@@ -4,42 +4,45 @@ using UnityEngine;
 
 public class ProjectileController : MonoBehaviour
 {
-    public float speed = 10f; // tốc độ đạn
-    private Vector2 initialDirection;
+    public float speed = 10f;              // tốc độ đạn
+    public GameObject hitEffectPrefab;     // hiệu ứng khi trúng mục tiêu
 
-    public GameObject hitEffectPrefab;
+    private GameObject target;             // mục tiêu hiện tại
+    private Vector3 direction;             // hướng bắn
 
-    public void SetTarget(GameObject targetObject)
+    public void SetTarget(GameObject enemy)
     {
-        if (targetObject != null)
-        {
-            initialDirection = (targetObject.transform.position - transform.position).normalized;
+        target = enemy;
 
-            float angle = Mathf.Atan2(initialDirection.y, initialDirection.x) * Mathf.Rad2Deg;
+        if (target != null)
+        {
+            // tính hướng từ player -> enemy
+            direction = (target.transform.position - transform.position).normalized;
+
+            // xoay đầu đạn theo hướng này
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0, 0, angle);
         }
     }
 
-    void Start()
-    {
-        Destroy(gameObject, 5f);
-    }
-
     void Update()
     {
-        transform.Translate(initialDirection * speed * Time.deltaTime, Space.World);
+        // đạn di chuyển theo hướng
+        transform.position += direction * speed * Time.deltaTime;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
+            // tạo hiệu ứng nổ
             if (hitEffectPrefab != null)
             {
                 GameObject effect = Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
                 Destroy(effect, 1f);
             }
 
+            // xóa enemy + đạn
             Destroy(collision.gameObject);
             Destroy(gameObject);
         }
