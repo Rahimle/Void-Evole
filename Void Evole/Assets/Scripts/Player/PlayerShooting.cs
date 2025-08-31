@@ -4,13 +4,19 @@ using UnityEngine;
 
 public class PlayerShooting : MonoBehaviour
 {
-    public GameObject projectilePrefab; // biến lưu trữ Prefab đạn
-    public float fireRate = 0.5f;       // tốc độ bắn 1 viên / 0.5 giây
-    public float aimingTime = 1f;       // tốc độ ngắm
+    public GameObject projectilePrefab; // bien Prefab dan
+    public float fireRate = 0.5f;       // bien toc do ban 1 vien
+    public float aimingTime = 1f;       // bien toc do ban
 
-    private float fireTimer = 0f;       // biến đếm time sau khi viên đạn bắn ra
-    private bool isShooting = false;    // trạng thái bắn là false
-    private GameObject targetEnemy;     // biến lưu mục tiêu
+    private float fireTimer = 0f;       // bien dem time
+    private bool isShooting = false;    // state shooting la false
+    private GameObject targetEnemy;     // bien muc tieu
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
 
     void Update()
     {
@@ -22,28 +28,27 @@ public class PlayerShooting : MonoBehaviour
 
         if (isShooting)
         {
-            fireTimer = fireTimer + Time.deltaTime; // số đếm ++
+            fireTimer = fireTimer + Time.deltaTime; // so dem ++
 
-            // kiểm tra thời gian bắn 
-            if (fireTimer >= aimingTime) // aimingTime để kiểm soát thời gian bắn
+            // kiem tra thoi gian ban
+            if (fireTimer >= aimingTime) // aimingTime kiem soat time ban
             {
-                targetEnemy = FindNearestEnemy(); // hàm tìm mục tiêu gần nhất
+                targetEnemy = FindNearestEnemy(); // ham tim muc tieu
 
                 if (targetEnemy != null)
                 {
                     Shooting();
                 }
-                fireTimer = 0f; // reset bộ đếm time
+                fireTimer = 0f; // reset bo dem = 0
             }
         }
     }
 
     void Shooting()
     {
-        // vị trí xuất hiện của đạn nằm gần player 1 đơn vị
+        // vi tri vien dan gan player 1 don vi 
         Vector3 spawnPoint = transform.position + new Vector3(1f, 0, 0);
 
-        // tạo viên đạn
         GameObject projectileInstance = Instantiate(projectilePrefab, spawnPoint, Quaternion.Euler(1f, 0, 0));
 
         // truyền vị trí cho viên đạn
