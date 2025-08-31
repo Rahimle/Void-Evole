@@ -1,83 +1,98 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerShooting : MonoBehaviour
 {
-    public GameObject projectilePrefab;// bien luu tru Prefab dan
-    public float fireRate = 0.5f; // toc do ban 1 vien / 0.5 giay
-    public float aimingTime = 1f; // toc do ngam
+    public GameObject projectilePrefab;              // Prefab đạn
+    public Transform firePoint;                      // Điểm bắn (con của Player, đặt ở nòng súng)
+    public float fireRate = 0.5f;                    // khoảng cách giữa 2 phát bắn
+    public Vector2 shootDelayRange = new Vector2(0.1f, 0.15f); // delay random sau khi aim gần đúng
+    public float aimingThreshold = 5f;               // sai số góc cho phép (độ)
+    public float minRotateSpeed = 90f;               // tốc độ xoay chậm nhất (độ/giây)
+    public float maxRotateSpeed = 360f;              // tốc độ xoay nhanh nhất (độ/giây)
 
-    private float fireTimer = 0f; // bien dem time sau khi vien dan ban ra
-    private bool isShooting = false; // trang thai ban la false
-    private GameObject targetEnemy; // bien luu muc tieu
+    private float fireTimer = 0f;
+    private bool isShooting = false;
+    private GameObject targetEnemy;
+    private Quaternion targetRotation;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space)) // kiem tra input 
+        // Bật/tắt bắn
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            isShooting = !isShooting; // bat trang thai ban
-            Debug.Log("Shooting State changed to " + isShooting);// thong bao trang thai ban trong console
+            isShooting = !isShooting;
+            Debug.Log("Shooting State: " + isShooting);
         }
 
-        if(isShooting)
+        if (!isShooting) return;
+
+        fireTimer += Time.deltaTime;
+
+        // Luôn tìm enemy gần nhất mỗi frame
+        GameObject nearest = FindNearestEnemy();
+        if (nearest != null)
         {
-            fireTimer = fireTimer + Time.deltaTime; // so dem ++
+            if (targetEnemy != nearest) targetEnemy = nearest;
 
-            // kiem tra thoi gian ban 
-            if (fireTimer >= aimingTime) // aimmingTime de kiem soat thoi gian ban
+            // Tính hướng cần xoay
+            Vector3 dir = (targetEnemy.transform.position - transform.position).normalized;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            targetRotation = Quaternion.Euler(0, 0, angle);
+
+            // Xoay động: lệch nhiều xoay nhanh, lệch ít xoay chậm
+            float angleDiff = Quaternion.Angle(transform.rotation, targetRotation);
+            float t = Mathf.Clamp01(angleDiff / 180f);
+            float dynamicSpeed = Mathf.Lerp(maxRotateSpeed, minRotateSpeed, 1f - t); // lệch lớn -> gần maxRotateSpeed
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, dynamicSpeed * Time.deltaTime);
+
+            // Khi đã xoay gần đúng và đủ fireRate -> bắn sau một delay ngẫu nhiên
+            angleDiff = Quaternion.Angle(transform.rotation, targetRotation);
+            if (angleDiff <= aimingThreshold && fireTimer >= fireRate)
             {
-                targetEnemy = FindNearestEnemy(); // ham tim muc tieu gan nhat
-
-                if(targetEnemy != null)
-                {
-                    Shooting();
-                }
-                fireTimer = 0f;// reset bo dem time
+                float randomDelay = Random.Range(shootDelayRange.x, shootDelayRange.y);
+                StartCoroutine(ShootAfterDelay(randomDelay));
+                fireTimer = 0f;
             }
         }
     }
 
+    IEnumerator ShootAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (targetEnemy != null) Shooting();
+        // Không reset target để tiếp tục bám mục tiêu gần nhất ở frame sau
+    }
+
     void Shooting()
     {
-        // vi tri xuat hien cua dan nam gan player 1 don vi
-        Vector3 spawnPoint = transform.position + new Vector3(1f, 0, 0);
+        // Nếu có firePoint thì spawn tại đó; nếu chưa gán thì fallback ra trước mặt player 1 đơn vị
+        Vector3 spawnPos = firePoint != null ? firePoint.position : transform.position + transform.right * 1f;
+        Quaternion spawnRot = firePoint != null ? firePoint.rotation : transform.rotation;
 
-        GameObject projectileInstance = Instantiate(projectilePrefab, spawnPoint, Quaternion.Euler(1f, 0, 0));
+        GameObject projectileInstance = Instantiate(projectilePrefab, spawnPos, spawnRot);
 
-        // truyen vi tri cho vien dan
         ProjectileController projectileScript = projectileInstance.GetComponent<ProjectileController>();
         if (projectileScript != null && targetEnemy != null)
         {
-            // truyen toan bo GameObject cua muc tieu
             projectileScript.SetTarget(targetEnemy);
         }
     }
 
-    // ham tim enemy 
     GameObject FindNearestEnemy()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         GameObject nearest = null;
         float minDistance = Mathf.Infinity;
 
-        if (enemies.Length > 0)
+        foreach (GameObject enemy in enemies)
         {
-            foreach (GameObject enemy in enemies)
+            float distance = Vector2.Distance(transform.position, enemy.transform.position);
+            if (distance < minDistance)
             {
-                float distance = Vector2.Distance(transform.position, enemy.transform.position);
-                if (distance < minDistance)
-                {
-                    minDistance = distance;
-                    nearest = enemy;
-                }
+                minDistance = distance;
+                nearest = enemy;
             }
         }
         return nearest;
