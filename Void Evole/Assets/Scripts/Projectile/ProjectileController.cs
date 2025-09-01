@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class ProjectileController : MonoBehaviour
 {
-    public float speed = 10f;              // tốc độ đạn
-    public GameObject hitEffectPrefab;     // hiệu ứng khi trúng mục tiêu
+    public float speed = 10f;              // toc do projectile
+    public GameObject hitEffectPrefab;     // bien hieu ung khi hit enemy
 
-    private GameObject target;             // mục tiêu hiện tại
-    private Vector3 direction;             // hướng bắn
+    private GameObject target;             // muc tieu hien tai
+    private Vector3 direction;             // huong ban
 
     public void SetTarget(GameObject enemy)
     {
@@ -16,10 +16,10 @@ public class ProjectileController : MonoBehaviour
 
         if (target != null)
         {
-            // tính hướng từ player -> enemy
+            // tinh huong tu player -> enemy
             direction = (target.transform.position - transform.position).normalized;
 
-            // xoay đầu đạn theo hướng này
+            // xoay projectile theo goc angle
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0, 0, angle);
         }
@@ -27,7 +27,7 @@ public class ProjectileController : MonoBehaviour
 
     void Update()
     {
-        // đạn di chuyển theo hướng
+        // projectile move theo huong
         transform.position += direction * speed * Time.deltaTime;
     }
 
@@ -35,16 +35,15 @@ public class ProjectileController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            // tạo hiệu ứng nổ
+            // explosion hit effect
             if (hitEffectPrefab != null)
             {
                 GameObject effect = Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
                 Destroy(effect, 1f);
             }
 
-            // xóa enemy + đạn
-            Destroy(collision.gameObject);
-            Destroy(gameObject);
+            Destroy(collision.gameObject);// xoa enemy
+            Destroy(gameObject);// xoa projectile
         }
     }
 }

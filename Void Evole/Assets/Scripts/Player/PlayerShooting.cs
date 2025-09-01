@@ -51,16 +51,16 @@ public class PlayerShooting : MonoBehaviour
 
         GameObject projectileInstance = Instantiate(projectilePrefab, spawnPoint, Quaternion.Euler(1f, 0, 0));
 
-        // truyền vị trí cho viên đạn
+        // truyen vi tri cho projectile
         ProjectileController projectileScript = projectileInstance.GetComponent<ProjectileController>();
         if (projectileScript != null && targetEnemy != null)
         {
-            // truyền toàn bộ GameObject của mục tiêu
+            // truyen toan bo GameObject cua muc tieu
             projectileScript.SetTarget(targetEnemy);
         }
     }
 
-    // hàm tìm enemy 
+    // ham tim enemy 
     GameObject FindNearestEnemy()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
