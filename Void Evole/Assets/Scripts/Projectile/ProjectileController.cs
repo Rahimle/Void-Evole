@@ -25,12 +25,18 @@ public class ProjectileController : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        Destroy(gameObject,5f);// huy dan sau 5s neu ko va cham
+    }
+
     void Update()
     {
         // projectile move theo huong
         transform.position += direction * speed * Time.deltaTime;
     }
 
+    // ham va cham
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
@@ -43,7 +49,19 @@ public class ProjectileController : MonoBehaviour
             }
 
             Destroy(collision.gameObject);// xoa enemy
+            FindObjectOfType<PlayerShooting>().OnProjectileDestroyed();
             Destroy(gameObject);// xoa projectile
+        }
+    }
+
+    // ham dc goi trc khi doi tuong bi destroy
+    void OnDestroy()
+    {
+        // check if projectile destroyed by hit ?
+        // if no, thong bao cho PlayerShooting
+        if (FindObjectOfType<PlayerShooting>() != null)
+        {
+            FindObjectOfType<PlayerShooting>().OnProjectileDestroyed();
         }
     }
 }

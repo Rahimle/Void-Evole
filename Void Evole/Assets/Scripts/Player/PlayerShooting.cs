@@ -11,6 +11,7 @@ public class PlayerShooting : MonoBehaviour
     private float fireTimer = 0f;       // bien dem time
     private bool isShooting = false;    // state shooting la false
     private GameObject targetEnemy;     // bien muc tieu
+    private bool isProjectileFlying = false;    // bien kiem soat projectile dc ban ra
 
     // Start is called before the first frame update
     void Start()
@@ -35,9 +36,10 @@ public class PlayerShooting : MonoBehaviour
             {
                 targetEnemy = FindNearestEnemy(); // ham tim muc tieu
 
-                if (targetEnemy != null)
+                // check if muc tieu co va ko co projectile dang bay
+                if (targetEnemy != null && !isProjectileFlying)
                 {
-                    Shooting();
+                    Shooting();// goi ham ban
                 }
                 fireTimer = 0f; // reset bo dem = 0
             }
@@ -49,6 +51,10 @@ public class PlayerShooting : MonoBehaviour
         // vi tri vien dan gan player 1 don vi 
         Vector3 spawnPoint = transform.position + new Vector3(1f, 0, 0);
 
+        // projectile flying exist
+        isProjectileFlying = true;
+
+        // tao projectile clone
         GameObject projectileInstance = Instantiate(projectilePrefab, spawnPoint, Quaternion.Euler(1f, 0, 0));
 
         // truyen vi tri cho projectile
@@ -80,5 +86,11 @@ public class PlayerShooting : MonoBehaviour
             }
         }
         return nearest;
+    }
+
+    // ham dc goi tu script cua projectile khi hit enemy
+    public void OnProjectileDestroyed()
+    {
+        isProjectileFlying = false;
     }
 }
