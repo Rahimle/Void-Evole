@@ -41,15 +41,22 @@ public class ProjectileController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
+            // Find script EnemyController on enemy get hit
+            EnemyController enemyController = collision.gameObject.GetComponent<EnemyController>();
+
+            if (enemyController != null)// kiem tra ham ton tai ko
+            {
+                // goi ham TakeDamage on enemy, truyen damage la 1
+                enemyController.TakeDamage(1);
+            }
+            
             // explosion hit effect
             if (hitEffectPrefab != null)
             {
                 GameObject effect = Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
                 Destroy(effect, 1f);
             }
-
-            Destroy(collision.gameObject);// xoa enemy
-            FindObjectOfType<PlayerShooting>().OnProjectileDestroyed();
+            
             Destroy(gameObject);// xoa projectile
         }
     }

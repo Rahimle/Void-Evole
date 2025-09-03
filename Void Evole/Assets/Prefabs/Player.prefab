@@ -112,12 +112,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 8402130770565136590, guid: a1200689135335d4589a00903e40aad2, type: 3}
-  firePoint: {fileID: 620304906689513550}
-  fireRate: 1.5
-  shootDelayRange: {x: 0.1, y: 0.15}
-  aimingThreshold: 5
-  minRotateSpeed: 90
-  maxRotateSpeed: 360
+  fireRate: 1.75
+  aimingTime: 1
 --- !u!1001 &2157265025217285169
 PrefabInstance:
   m_ObjectHideFlags: 0

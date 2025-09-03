@@ -168,8 +168,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 2659654693268088837, guid: 4f7863dfefa9580438034e2419f7ffd2, type: 3}
-  spawnBetweenWaves: 5
-  enemiesQuantity: 3
+  spawnBetweenWaves: 10
+  enemiesQuantity: 1
 --- !u!1 &2057491050
 GameObject:
   m_ObjectHideFlags: 0
