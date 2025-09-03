@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5804f3ba9f2d2a8499d0311606345950, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 2659654693268088837, guid: 4f7863dfefa9580438034e2419f7ffd2, type: 3}
+  enemyPrefab: {fileID: 5934279895000776004, guid: 3d8bc8c0e13376840b803d7faeeb4265, type: 3}
   spawnBetweenWaves: 10
   enemiesQuantity: 1
 --- !u!1 &2057491050
