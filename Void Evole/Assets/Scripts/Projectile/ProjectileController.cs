@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class ProjectileController : MonoBehaviour
 {
-    public float speed = 10f;              // toc do projectile
-    public GameObject hitEffectPrefab;     // bien hieu ung khi hit enemy
+    public float speed = 10f;// toc do projectile
+    public GameObject hitEffectPrefab;// bien hieu ung khi hit enemy
 
-    private GameObject target;             // muc tieu hien tai
-    private Vector3 direction;             // huong ban
+    private GameObject target;// muc tieu hien tai
+    private Vector3 direction;// huong ban
+    private float lifeTimer;// bo dem thoi gian ton tai
 
-    public void SetTarget(GameObject enemy)
+    // Bien tham chieu den script PlayerShooting
+    private PlayerShooting playerShootingScript;
+
+    public void SetTarget(GameObject enemy, PlayerShooting shooter)
     {
         target = enemy;
+        playerShootingScript = shooter;
 
         if (target != null)
         {
@@ -25,13 +30,28 @@ public class ProjectileController : MonoBehaviour
         }
     }
 
+    // Khoi tao bo dem khi projectile duoc kich hoat
+    void OnEnable()
+    {
+        lifeTimer = 0f;
+    }
+
     void Start()
     {
-        Destroy(gameObject,5f);// huy dan sau 5s neu ko va cham
+        
     }
 
     void Update()
     {
+        // Tang bo dem thoi gian
+        lifeTimer += Time.deltaTime;
+
+        // Kiem tra neu thoi gian ton tai lon hon 5 giay
+        if (lifeTimer >= 5f)
+        {
+            ReturnToPool();
+        }
+
         // projectile move theo huong
         transform.position += direction * speed * Time.deltaTime;
     }
@@ -49,26 +69,40 @@ public class ProjectileController : MonoBehaviour
                 // goi ham TakeDamage on enemy, truyen damage la 1
                 enemyController.TakeDamage(1);
             }
-            
+
             // explosion hit effect
             if (hitEffectPrefab != null)
             {
                 GameObject effect = Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
                 Destroy(effect, 1f);
             }
-            
-            Destroy(gameObject);// xoa projectile
+
+            ReturnToPool();// tra vien dan ve pool
+            //Destroy(gameObject);// xoa projectile
         }
     }
 
     // ham dc goi trc khi doi tuong bi destroy
-    void OnDestroy()
+    //void OnDestroy()
+    //{
+    //    // check if projectile destroyed by hit ?
+    //    // if no, thong bao cho PlayerShooting
+    //    if (FindObjectOfType<PlayerShooting>() != null)
+    //    {
+    //        FindObjectOfType<PlayerShooting>().OnProjectileDestroyed();
+    //    }
+    //}
+
+    // Ham xu ly viec tra ve pool
+    private void ReturnToPool()
     {
-        // check if projectile destroyed by hit ?
-        // if no, thong bao cho PlayerShooting
-        if (FindObjectOfType<PlayerShooting>() != null)
+        // Khi tra ve pool, thong bao cho PlayerShooting de reset trang thai ban
+        if (playerShootingScript != null)
         {
-            FindObjectOfType<PlayerShooting>().OnProjectileDestroyed();
+            playerShootingScript.OnProjectileDestroyed();
         }
+
+        // An doi tuong de tra ve pool
+        gameObject.SetActive(false);
     }
 }

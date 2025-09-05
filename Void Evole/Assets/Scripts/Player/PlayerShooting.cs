@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerShooting : MonoBehaviour
 {
-    public GameObject projectilePrefab; // bien Prefab dan
+    //public GameObject projectilePrefab; // bien Prefab dan
     public float fireRate = 0.5f;       // bien toc do ban 1 vien
     public float aimingTime = 1f;       // bien toc do ban
 
@@ -48,22 +48,42 @@ public class PlayerShooting : MonoBehaviour
 
     void Shooting()
     {
-        // vi tri vien dan gan player 1 don vi 
-        Vector3 spawnPoint = transform.position + new Vector3(1f, 0, 0);
+        // Lay mot vien dan tu Object Pooler
+        GameObject projectileInstance = ObjectPooler.Instance.GetPooledProjectile();
 
-        // projectile flying exist
-        isProjectileFlying = true;
-
-        // tao projectile clone
-        GameObject projectileInstance = Instantiate(projectilePrefab, spawnPoint, Quaternion.Euler(1f, 0, 0));
-
-        // truyen vi tri cho projectile
-        ProjectileController projectileScript = projectileInstance.GetComponent<ProjectileController>();
-        if (projectileScript != null && targetEnemy != null)
+        if(projectileInstance != null)// neu lay dc 1 vien dan
         {
-            // truyen toan bo GameObject cua muc tieu
-            projectileScript.SetTarget(targetEnemy);
+            // vi tri vien dan gan player 1 don vi 
+            Vector3 spawnPoint = transform.position + new Vector3(1f, 0, 0);
+
+            // Dat vi tri cua vien dan tai Firepoint
+            projectileInstance.transform.position = spawnPoint;
+            projectileInstance.transform.rotation = Quaternion.identity; // Đặt lại rotation
+
+            // projectile flying exist
+            isProjectileFlying = true;
+
+            // truyen vi tri cho projectile
+            ProjectileController projectileScript = projectileInstance.GetComponent<ProjectileController>();
+            if (projectileScript != null && targetEnemy != null)
+            {
+                // goi ham SetTarget va truyen tham chieu cua script hien tai
+                projectileScript.SetTarget(targetEnemy, this);
+            }
+
         }
+
+        //isProjectileFlying = true;// projectile flying exist
+        // tao projectile clone
+        //GameObject projectileInstance = Instantiate(projectilePrefab, spawnPoint, Quaternion.Euler(1f, 0, 0));
+       
+        // truyen vi tri cho projectile
+        //ProjectileController projectileScript = projectileInstance.GetComponent<ProjectileController>();
+        //if (projectileScript != null && targetEnemy != null)
+        //{
+        //    // truyen toan bo GameObject cua muc tieu
+        //    projectileScript.SetTarget(targetEnemy);
+        //}
     }
 
     // ham tim enemy 
