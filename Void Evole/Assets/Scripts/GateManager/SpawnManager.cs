@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    public GameObject enemyPrefab;// bien luu Prefab enemy
+    //public GameObject enemyPrefab;// bien luu Prefab enemy
     public float spawnBetweenWaves = 5f;// bien khoang time giua cac waves
     public int enemiesQuantity = 5;// bien so luong quai
     private float spawnTimer = 0f;// bien dem time
@@ -61,8 +61,16 @@ public class SpawnManager : MonoBehaviour
             // neu tim dc vi tri an toan 
             if (positionFound)
             {
-                // trieu hoi enemy tai vi tri 
-                Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+                //Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);// trieu hoi enemy tai vi tri cu the
+                
+                GameObject enemyInstance = ObjectPooler.Instance.GetPooledEnemy();// lay enemy tu pool
+
+                // kiem tra enemy co ton tai ko
+                if (enemyInstance != null)
+                {
+                    enemyInstance.transform.position = spawnPosition;
+                    enemyInstance.transform.rotation = Quaternion.identity;
+                }
             }
         } 
     }

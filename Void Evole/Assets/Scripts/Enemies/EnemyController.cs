@@ -13,6 +13,16 @@ public class EnemyController : MonoBehaviour
     //private Transform playerTransform; // bien luu vi tri nguoi choi
     private Transform wallTransform; // bien luu vi tri wall
 
+    void OnEnable()
+    {
+        health = 10;// reset hp enemy khi spawn
+        // cap nhat hien thi hp
+        if(healthText != null)
+        {
+            healthText.text = health.ToString();
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -63,7 +73,8 @@ public class EnemyController : MonoBehaviour
 
         if (transform.position.x < -10f)// neu ra khoi man hinh trai 
         {
-            Destroy(gameObject);// huy 
+            //Destroy(gameObject);// huy 
+            gameObject.SetActive(false);// tra enemy ve pool
         }
     }
 
@@ -79,7 +90,8 @@ public class EnemyController : MonoBehaviour
 
         if(health <= 0) // neu hp enemy <= 0
         {
-            Destroy(gameObject); // huy enemy
+            //Destroy(gameObject); // huy enemy
+            gameObject.SetActive(false); // tra enemy ve pool
         }
     }
 
@@ -94,8 +106,8 @@ public class EnemyController : MonoBehaviour
                 GameManager.Instance.TakeWallDamage(1);
             }
 
-            // Huy quai vat sau khi no va cham voi buc tuong
-            Destroy(gameObject);
+            //Destroy(gameObject);// huy enemy
+            gameObject.SetActive(false); // tra enemy ve pool
         }
     }
 }

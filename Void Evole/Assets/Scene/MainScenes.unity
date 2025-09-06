@@ -210,7 +210,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 8402130770565136590, guid: a1200689135335d4589a00903e40aad2, type: 3}
-  poolSize: 5
+  enemyPrefab: {fileID: 5934279895000776004, guid: 3d8bc8c0e13376840b803d7faeeb4265, type: 3}
+  projectilePoolSize: 5
+  enemyPoolSize: 5
 --- !u!4 &378413406
 Transform:
   m_ObjectHideFlags: 0
