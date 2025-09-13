@@ -6,7 +6,8 @@ using TMPro;// thu vien ho tro TextMeshPro
 public class EnemyController : MonoBehaviour
 {
     public float speed = 0.1f;// bien luu toc do quai
-    public int health = 10;// bien luu hp enemy
+    public int maxHealth = 10;// bien luu hp enemy
+    public int currentHealth; // bien theo doi mau hien tai
     // bien tao ra 1 truong de keo tha doi tuong TextMeshPro vao trong Inspec Unity
     public TextMeshProUGUI healthText;
 
@@ -15,11 +16,11 @@ public class EnemyController : MonoBehaviour
 
     void OnEnable()
     {
-        health = 10;// reset hp enemy khi spawn
+        currentHealth = maxHealth;// reset hp enemy khi spawn
         // cap nhat hien thi hp
         if(healthText != null)
         {
-            healthText.text = health.ToString();
+            healthText.text = currentHealth.ToString();
         }
     }
 
@@ -39,10 +40,10 @@ public class EnemyController : MonoBehaviour
             wallTransform = wallObject.transform;
         }
 
-        if (healthText != null)
-        {
-            healthText.text = health.ToString();
-        }
+        //if (healthText != null)
+        //{
+        //    healthText.text = maxHealth.ToString();
+        //}
     }
 
     // Update is called once per frame
@@ -74,6 +75,10 @@ public class EnemyController : MonoBehaviour
         if (transform.position.x < -10f)// neu ra khoi man hinh trai 
         {
             //Destroy(gameObject);// huy 
+            if(GameManager.Instance != null) // thong bao ve GameManager
+            {
+                GameManager.Instance.EnemyDefeated();
+            }
             gameObject.SetActive(false);// tra enemy ve pool
         }
     }
@@ -81,16 +86,20 @@ public class EnemyController : MonoBehaviour
     // ham takedamage dc goi tu script projectile khi enemy hit projectile
     public void TakeDamage(int damageAmount)
     {
-        health -= damageAmount; // hp enemy - damage cua projectile
+        currentHealth -= damageAmount; // hp enemy - damage cua projectile
         // cap nhat gia tri hp text
         if(healthText != null)
         {
-            healthText.text = health.ToString();
+            healthText.text = currentHealth.ToString();
         }
 
-        if(health <= 0) // neu hp enemy <= 0
+        if(currentHealth <= 0) // neu hp enemy <= 0
         {
             //Destroy(gameObject); // huy enemy
+            if(GameManager.Instance != null) // thong bao GameManager
+            {
+                GameManager.Instance.EnemyDefeated();// call ham enemy bi tieu diet
+            }
             gameObject.SetActive(false); // tra enemy ve pool
         }
     }
@@ -100,9 +109,13 @@ public class EnemyController : MonoBehaviour
     {
         if (other.CompareTag("Wall"))
         {
+            // neu hp enemy = hp tuong thi gameover
+            TakeDamage(currentHealth);
+
             // goi ham tru mau cua GameManager
             if (GameManager.Instance != null)
             {
+                GameManager.Instance.EnemyDefeated();
                 GameManager.Instance.TakeWallDamage(1);
             }
 

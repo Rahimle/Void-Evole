@@ -5,16 +5,18 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;// bien luu the hien GameManager
+    public static GameManager Instance { get; private set; }// bien luu the hien GameManager
     public int wallHealth = 20; // bien luu wall hp
     public TextMeshProUGUI wallHealthText; // bien luu tham chieu den text wall hp
+    public int enemiesRemaining { get; private set; }
+
+    
 
     void Awake() // thiet lap Singleton
     {
         if(Instance == null)// ktra co ton tai GM nao ko
         {
             Instance = this;// neu chua, gan the hien hien tai vao bien
-
             DontDestroyOnLoad(gameObject);// ngan ko cho object bi huy khi chuyen Scene
         }
         else // neu co
@@ -66,12 +68,23 @@ public class GameManager : MonoBehaviour
         {
             wallHealthText.text = wallHealth.ToString();
         }
-        wallHealthText = GameObject.Find("WallHealthText").GetComponent<TextMeshProUGUI>();
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    // ham dem enemy con lai 
+    public void AddEnemyToCount()
+    {
+        enemiesRemaining++;
+    }
+
+    // ham dem enemy bi tieu diet
+    public void EnemyDefeated()
+    {
+        enemiesRemaining--;
     }
 }

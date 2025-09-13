@@ -25,14 +25,9 @@ public class ObjectPooler : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
         // khoi tao project qua loops va them vao pool
         pooledProjectiles = new List<GameObject>();
-        for(int i = 0; i < projectilePoolSize; i++)
+        for (int i = 0; i < projectilePoolSize; i++)
         {
             GameObject projectile = Instantiate(projectilePrefab); // tao ra ban sao Prefab dan
             projectile.SetActive(false); // set trang thai dan ko hoat dong, hiden
@@ -41,12 +36,18 @@ public class ObjectPooler : MonoBehaviour
 
         // khoi tao enemy 
         pooledEnemies = new List<GameObject>();
-        for(int i = 0; i < enemyPoolSize; i++)
+        for (int i = 0; i < enemyPoolSize; i++)
         {
             GameObject enemy = Instantiate(enemyPrefab); // tao ban sao Prefab enemy
             enemy.SetActive(false); // set status unused, hiden
             pooledEnemies.Add(enemy); // them enemy dc tao vao list
         }
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
     }
 
     // Update is called once per frame
