@@ -58,7 +58,7 @@ public class SpawnManager : MonoBehaviour
         {
             if (waveText != null)
             {
-                waveText.text = "Wave: 0";
+                waveText.text = "Wave: " + (currentWave);
             }
             // b1: time countdown
             float countdown = timeBetweenWaves;
@@ -74,23 +74,33 @@ public class SpawnManager : MonoBehaviour
 
             // b2: start new wave
             totalEnemiesThisWave = baseEnemiesPerWave * currentWave;
+            if(countdownText != null)
+            {
+                countdownText.text = "GO!"; // Bat dau wave tiep theo
+            }
+
+            if(currentWave == 0) // truong hop wave dau tien
+            {
+                currentWave = 1;
+            }
+
+            // tang wave va hien thi
             if (waveText != null)
             {
-                waveText.text = "Wave: " + currentWave;
+                waveText.text = "Wave: " + (currentWave);
             }
 
             // b3: spawn enemy
             for (int i = 0; i < totalEnemiesThisWave; i++)
             {
                 SpawnEnemy();
-                yield return new WaitForSeconds(0.5f); // spawn 1 con / 0.5 giay
+                yield return new WaitForSeconds(2f); // spawn 1 con / giay
             }
 
             // wait till all enemy remain gone
             yield return new WaitUntil(() => GameManager.Instance.enemiesRemaining <= 0);
 
-            // waves increase and loop 
-            currentWave++;
+            currentWave++; // increase wave and loop
         }
     }
 
