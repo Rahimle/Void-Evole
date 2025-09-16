@@ -235,8 +235,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bdc832489187f2419b626243442d2db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wallHealth: 10
-  wallHealthText: {fileID: 93396872}
+  wallHealth: 20
+  uiWallHealth: {fileID: 93396872}
 --- !u!114 &93396872 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6381235791130110758, guid: d1ccc0cb1d061064e82c6bea0a79695b, type: 3}
@@ -257,7 +257,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 378413406}
-  - component: {fileID: 378413405}
+  - component: {fileID: 378413407}
   m_Layer: 0
   m_Name: ObjectPooler
   m_TagString: Untagged
@@ -265,22 +265,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &378413405
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 378413404}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdadbb2b4acee09499ded2e61fd43579, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 8402130770565136590, guid: a1200689135335d4589a00903e40aad2, type: 3}
-  enemyPrefab: {fileID: 5934279895000776004, guid: 3d8bc8c0e13376840b803d7faeeb4265, type: 3}
-  projectilePoolSize: 5
-  enemyPoolSize: 5
 --- !u!4 &378413406
 Transform:
   m_ObjectHideFlags: 0
@@ -296,6 +280,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &378413407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 378413404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdadbb2b4acee09499ded2e61fd43579, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 8402130770565136590, guid: a1200689135335d4589a00903e40aad2, type: 3}
+  projectilePoolSize: 5
+  enemyPrefab: {fileID: 5934279895000776004, guid: 3d8bc8c0e13376840b803d7faeeb4265, type: 3}
+  enemyPoolSize: 5
 --- !u!1 &380679923
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,17 +340,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5804f3ba9f2d2a8499d0311606345950, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentWave: 1
-  baseEnemiesPerWave: 1
-  timeBetweenWaves: 5
-  waveUIPrefab: {fileID: 807392456}
-  waveText: {fileID: 0}
-  countdownText: {fileID: 0}
---- !u!1 &807392456 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3544821545104870063, guid: 94d9373fd97d4ab42b5c9f857a78d43c, type: 3}
-  m_PrefabInstance: {fileID: 209377149687645304}
-  m_PrefabAsset: {fileID: 0}
+  baseEnemies: 1
+  waveCoolDown: 5
+  waveText: {fileID: 209377149687645306}
+  countdownText: {fileID: 209377149687645305}
 --- !u!1 &1234255328
 GameObject:
   m_ObjectHideFlags: 0
@@ -705,6 +698,28 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94d9373fd97d4ab42b5c9f857a78d43c, type: 3}
+--- !u!114 &209377149687645305 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8066965887867576278, guid: 94d9373fd97d4ab42b5c9f857a78d43c, type: 3}
+  m_PrefabInstance: {fileID: 209377149687645304}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &209377149687645306 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7893679204246644290, guid: 94d9373fd97d4ab42b5c9f857a78d43c, type: 3}
+  m_PrefabInstance: {fileID: 209377149687645304}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3169711253291207896
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -713,6 +728,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 577305614336891497, guid: d1ccc0cb1d061064e82c6bea0a79695b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.6
+      objectReference: {fileID: 0}
     - target: {fileID: 2485284356801048574, guid: d1ccc0cb1d061064e82c6bea0a79695b, type: 3}
       propertyPath: m_Name
       value: Wall

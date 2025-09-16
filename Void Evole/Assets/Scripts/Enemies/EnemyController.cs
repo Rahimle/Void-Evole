@@ -5,122 +5,78 @@ using TMPro;// thu vien ho tro TextMeshPro
 
 public class EnemyController : MonoBehaviour
 {
-    public float speed = 0.1f;// bien luu toc do quai
-    public int maxHealth = 10;// bien luu hp enemy
-    public int currentHealth; // bien theo doi mau hien tai
-    // bien tao ra 1 truong de keo tha doi tuong TextMeshPro vao trong Inspec Unity
+    // Cau hinh enemy
+    public float speed = 0.1f;
+    public int maxHealth = 10;
+
+    // Tham chieu UI
     public TextMeshProUGUI healthText;
 
-    //private Transform playerTransform; // bien luu vi tri nguoi choi
-    private Transform wallTransform; // bien luu vi tri wall
+    // Bien quan ly trang thai
+    private int currentHealth;
 
+    // Ham lam viec voi Object Pooler
     void OnEnable()
     {
-        currentHealth = maxHealth;// reset hp enemy khi spawn
-        // cap nhat hien thi hp
+        // Resey enemy's hp & update UI
+        currentHealth = maxHealth;
         if(healthText != null)
         {
-            healthText.text = currentHealth.ToString();
+            healthText.text = "HP: " + currentHealth.ToString();
+        }
+
+        // Thong bao GameManager Addenemy dc kich hoat
+        if(GameManager.Instance != null)
+        {
+            GameManager.Instance.AddEnemy();
+        }
+    }
+
+    void OnDisable()
+    {
+        // Thong bao GameManger Removeenemy dc kich hoat
+        if(GameManager.Instance != null)
+        {
+            GameManager.Instance.RemoveEnemy();
         }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        //GameObject playerObject = GameObject.Find("Player");// tim vi tri nguoi choi 
-        GameObject wallObject = GameObject.FindWithTag("Wall"); // tim vi tri wall
 
-        // neu tim thay thi luu vi tri
-        //if(playerObject != null)
-        //{
-        //    playerTransform = playerObject.transform;
-        //}
-        if(wallObject != null )
-        {
-            wallTransform = wallObject.transform;
-        }
-
-        //if (healthText != null)
-        //{
-        //    healthText.text = maxHealth.ToString();
-        //}
     }
 
     // Update is called once per frame
     void Update()
     {
-        // kiem tra neu tim thay player
-        //if (playerTransform != null)
-        //{
-        //    // tinh toan huong di chuyen tu vi tri enemy -> player
-        //    // .normalized dam bao vector co lenght = 1, giup speed di chuyen on dinh
-        //    Vector2 direction = (playerTransform.position - transform.position).normalized;
-
-        //    // di chuyen enemy theo huong 
-        //    transform.Translate(direction * speed * Time.deltaTime);
-        //}
-
-        // check neu tim thay wall
-        //if(wallTransform != null)
-        //{
-        //    // tinh huong di chuyen tu vi tri enemy -> wall
-        //    Vector2 direction = (wallTransform.position - transform.position).normalized;
-
-        //    // move theo huong 
-        //    transform.Translate(direction * speed * Time.deltaTime);
-        //}
-
+        // Di chuyen enemy sang trai
         transform.Translate(Vector2.left * speed * Time.deltaTime);
-
-        if (transform.position.x < -10f)// neu ra khoi man hinh trai 
-        {
-            //Destroy(gameObject);// huy 
-            if(GameManager.Instance != null) // thong bao ve GameManager
-            {
-                GameManager.Instance.EnemyDefeated();
-            }
-            gameObject.SetActive(false);// tra enemy ve pool
-        }
     }
 
-    // ham takedamage dc goi tu script projectile khi enemy hit projectile
-    public void TakeDamage(int damageAmount)
+    // Ham take damage from player's projectile
+    public void TakeDamage(int damage)
     {
-        currentHealth -= damageAmount; // hp enemy - damage cua projectile
-        // cap nhat gia tri hp text
+        currentHealth -= damage;
         if(healthText != null)
         {
-            healthText.text = currentHealth.ToString();
+            healthText.text = "HP: " + currentHealth.ToString(); // update Ui
         }
 
         if(currentHealth <= 0) // neu hp enemy <= 0
         {
-            //Destroy(gameObject); // huy enemy
-            if(GameManager.Instance != null) // thong bao GameManager
-            {
-                GameManager.Instance.EnemyDefeated();// call ham enemy bi tieu diet
-            }
-            gameObject.SetActive(false); // tra enemy ve pool
+            // vo hieu hoa enemy, kich hoat OnDisable()
+            gameObject.SetActive(false);
         }
     }
 
-    // ham xu ly va cham wall
-    private void OnTriggerEnter2D(Collider2D other)
+    // Ham va cham
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (other.CompareTag("Wall"))
+        if (collision.gameObject.CompareTag("Wall"))
         {
-            // neu hp enemy = hp tuong thi gameover
-            TakeDamage(currentHealth);
-
-            // goi ham tru mau cua GameManager
-            if (GameManager.Instance != null)
-            {
-                GameManager.Instance.EnemyDefeated();
-                GameManager.Instance.TakeWallDamage(1);
-            }
-
-            //Destroy(gameObject);// huy enemy
-            gameObject.SetActive(false); // tra enemy ve pool
+            GameManager.Instance.TakeWallDamage(1);   
+            gameObject.SetActive(false); 
         }
     }
 }

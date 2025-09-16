@@ -5,86 +5,81 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance { get; private set; }// bien luu the hien GameManager
-    public int wallHealth = 20; // bien luu wall hp
-    public TextMeshProUGUI wallHealthText; // bien luu tham chieu den text wall hp
-    public int enemiesRemaining { get; private set; }
+    // bien Singleton GameManager
+    public static GameManager Instance { get; private set; }
 
-    
+    //bien quan ly trang thai game
+    public int wallHealth = 20;
+    public int enemiesActive { get; private set; } = 0;
 
-    void Awake() // thiet lap Singleton
+    // bien tham chieu thanh phan UI
+    public TextMeshProUGUI uiWallHealth;    
+
+    // Ham thiet lap Singletone
+    void Awake() 
     {
-        if(Instance == null)// ktra co ton tai GM nao ko
+        if(Instance == null)
         {
-            Instance = this;// neu chua, gan the hien hien tai vao bien
-            DontDestroyOnLoad(gameObject);// ngan ko cho object bi huy khi chuyen Scene
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-        else // neu co
+        else 
         {
-            Destroy(gameObject);// huy object hien tai tranh dupe
+            Destroy(gameObject);
         }
     }
-
-    // ham va cham quai
-    public void TakeWallDamage(int damageAmount)
-    {
-        wallHealth -= damageAmount; // hp wall giam theo damage nhan vao
-
-        // dam bao hp ko dc duoi 0
-        if (wallHealth < 0)
-        {
-            wallHealth = 0;
-        }
-
-        // cap nhat gia tri hien thi wall hp
-        if (wallHealthText != null)
-        {
-            wallHealthText.text = wallHealth.ToString();
-        }
-
-        // kiem tra hp wall
-        if(wallHealth <= 0)
-        {
-            GameOver(); // goi ham thua
-        }
-        
-    }
-
-    // ham GameOver
-    public void GameOver()
-    {
-        Debug.Log("GameOver!");// thong bao thua
-
-        Time.timeScale = 0; // dung game
-
-    }
-
 
     // Start is called before the first frame update
     void Start()
     {
-        // dam bao so hp hien thi khop voi gia tri ban dau
-        if (wallHealthText != null)
-        {
-            wallHealthText.text = wallHealth.ToString();
-        }
+        UpdateUIWallHealth(); // ham cap nhat UI hp wall
     }
 
     // Update is called once per frame
     void Update()
     {
+
+    }
+
+    // Ham cap nhat UI health wall
+    private void UpdateUIWallHealth()
+    {
+        if(uiWallHealth != null) // ktra value
+        {
+            uiWallHealth.text = "Wall Health: " + wallHealth.ToString(); // cap nhat
+        }
+    }
+
+    // ham xu ly wall take damage
+    public void TakeWallDamage(int damage)
+    {
+        wallHealth -= damage; // hp - damage taken
+        if (wallHealth < 0)
+        {
+            wallHealth = 0;
+        }
+        UpdateUIWallHealth(); // cap nhat ui khi hp giam
+
+        // kiem tra hp wall
+        if(wallHealth <= 0)
+        {
+            GameOver(); // call ham thua
+        }
         
     }
 
-    // ham dem enemy con lai 
-    public void AddEnemyToCount()
+    // Cac ham Add, Remove, GameOver
+    public void AddEnemy()
     {
-        enemiesRemaining++;
+        enemiesActive++; // spawn enemy
     }
-
-    // ham dem enemy bi tieu diet
-    public void EnemyDefeated()
+    public void RemoveEnemy()
     {
-        enemiesRemaining--;
+        enemiesActive--; // remove enemy
+    }
+    void GameOver()
+    {
+        Debug.Log("Game Over!");
+        Time.timeScale = 0; // tam dung game
     }
 }

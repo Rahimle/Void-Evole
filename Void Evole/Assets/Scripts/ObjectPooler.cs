@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class ObjectPooler : MonoBehaviour
 {
-    public GameObject projectilePrefab; // bien tham chieu prefab projectile
-    public GameObject enemyPrefab; // bien tham chieu prefab enemy
-    public int projectilePoolSize = 5; // kich thuoc pool ( quantity of projectile created)
-    public int enemyPoolSize = 5; // kich thuoc pool (quantity of enemy created)
+    // Bien projectile
+    public GameObject projectilePrefab;
+    public int projectilePoolSize = 5; 
+    private List<GameObject> pooledProjectiles;
 
-    private List<GameObject> pooledProjectiles; // danh sach luu cac doi tuong projectile
-    private List<GameObject> pooledEnemies; // danh sach luu cac doi tuong enemy
+    // Bien enemy
+    public GameObject enemyPrefab;
+    public int enemyPoolSize = 5; 
+    private List<GameObject> pooledEnemies;
 
-    // setup Singleton
+    // Setup Singleton
     public static ObjectPooler Instance;
 
     void Awake()
@@ -20,34 +22,36 @@ public class ObjectPooler : MonoBehaviour
         if(Instance == null)
         {
             Instance = this;
+            // ObjectPooler khong bi huy khi chuyen Scene
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
-        }
-        // khoi tao project qua loops va them vao pool
-        pooledProjectiles = new List<GameObject>();
-        for (int i = 0; i < projectilePoolSize; i++)
-        {
-            GameObject projectile = Instantiate(projectilePrefab); // tao ra ban sao Prefab dan
-            projectile.SetActive(false); // set trang thai dan ko hoat dong, hiden
-            pooledProjectiles.Add(projectile); // them projectile dc tao vao list
-        }
-
-        // khoi tao enemy 
-        pooledEnemies = new List<GameObject>();
-        for (int i = 0; i < enemyPoolSize; i++)
-        {
-            GameObject enemy = Instantiate(enemyPrefab); // tao ban sao Prefab enemy
-            enemy.SetActive(false); // set status unused, hiden
-            pooledEnemies.Add(enemy); // them enemy dc tao vao list
         }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        // Khoi tao Pool projectile
+        pooledProjectiles = new List<GameObject>();
+        for(int i = 0; i<projectilePoolSize;i++)
+        {
+            GameObject projectile = Instantiate(projectilePrefab);
+            projectile.SetActive(false);
+            pooledProjectiles.Add(projectile);
+        }
+
+        // Khoi tao Pool enemy
+        pooledEnemies = new List<GameObject>();
+        for(int i = 0; i<enemyPoolSize;i++)
+        {
+            GameObject enemy = Instantiate(enemyPrefab);
+            enemy.SetActive(false);
+            pooledEnemies.Add(enemy);
+        }
+
     }
 
     // Update is called once per frame
@@ -56,37 +60,39 @@ public class ObjectPooler : MonoBehaviour
         
     }
 
-    // ham dc goi khi can 1 vien dan
+    // Ham lay Projectile
     public GameObject GetPooledProjectile()
     {
-        foreach (GameObject projectile in pooledProjectiles) // kiem tra tung vien dan trong list
+        foreach (GameObject projectile in pooledProjectiles) // duyet cac object trong pool
         {
-            // kiem tra xem dan co dang dc su dung ko
-            if (!projectile.activeInHierarchy)
+            if (!projectile.activeInHierarchy) // ktra hoat dong
             {
-                projectile.SetActive(true);// kich hoat projectile xuat hien de su dung
+                projectile.SetActive(true);// kich hoat va return
                 return projectile;
             }
         }
-        //neu loops end ma ko tim dc dan ko su dung thi tao them dan
+        // If end loops without object -> creat
         GameObject newProjectile = Instantiate(projectilePrefab);
         pooledProjectiles.Add(newProjectile);
+
+        newProjectile.SetActive(true); // kich hoat va return new 
         return newProjectile;
     }
 
     public GameObject GetPooledEnemy()
     {
-        foreach (GameObject enemy in pooledEnemies) // kiem tra tung con quai trong list
+        foreach (GameObject enemy in pooledEnemies)
         {
-            if(!enemy.activeInHierarchy)
+            if(!enemy.activeInHierarchy) 
             {
-                enemy.SetActive(true); // kich hoat enemy xuat hien -> in use
+                enemy.SetActive(true);
                 return enemy;
             }
         }
-        // if loops end,ko tim dc enemy thi tao them
         GameObject newEnemy = Instantiate(enemyPrefab);
         pooledEnemies.Add(newEnemy);
+
+        newEnemy.SetActive(true);
         return newEnemy;
     }
 }
