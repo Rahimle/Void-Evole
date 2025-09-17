@@ -4,105 +4,73 @@ using UnityEngine;
 
 public class ProjectileController : MonoBehaviour
 {
-    public float speed = 10f;// toc do projectile
+    // Cau hinh Projectile
+    public float speed = 10f;
+    public int damageAmount = 1;
+
+    // Bien tham chieu Prefab
     public GameObject hitEffectPrefab;// bien hieu ung khi hit enemy
 
-    private GameObject target;// muc tieu hien tai
-    private Vector3 direction;// huong ban
-    private float lifeTimer;// bo dem thoi gian ton tai
+    // Bien quan ly trang thai
+    private GameObject target;
+    private Vector3 direction;
+    private float lifeTimer;
 
-    // Bien tham chieu den script PlayerShooting
-    private PlayerShooting playerShootingScript;
-
-    public void SetTarget(GameObject enemy, PlayerShooting shooter)
-    {
-        target = enemy;
-        playerShootingScript = shooter;
-
-        if (target != null)
-        {
-            // tinh huong tu player -> enemy
-            direction = (target.transform.position - transform.position).normalized;
-
-            // xoay projectile theo goc angle
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0, 0, angle);
-        }
-    }
-
-    // Khoi tao bo dem khi projectile duoc kich hoat
-    void OnEnable()
-    {
-        lifeTimer = 0f;
-    }
-
+    // Start is called before the first frame update
     void Start()
     {
         
     }
 
+    // Ham di chuyen projectile & check time exist
     void Update()
     {
-        // Tang bo dem thoi gian
         lifeTimer += Time.deltaTime;
-
-        // Kiem tra neu thoi gian ton tai lon hon 5 giay
         if (lifeTimer >= 5f)
         {
-            ReturnToPool();
+            gameObject.SetActive(false);
         }
-
-        // projectile move theo huong
         transform.position += direction * speed * Time.deltaTime;
     }
 
-    // ham va cham
+    // Ham reset time between shooting
+    void OnEnable()
+    {
+        lifeTimer = 0f;
+    }
+
+    // Ham va cham
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            // Find script EnemyController on enemy get hit
             EnemyController enemyController = collision.gameObject.GetComponent<EnemyController>();
-
-            if (enemyController != null)// kiem tra ham ton tai ko
+            if (enemyController != null)
             {
-                // goi ham TakeDamage on enemy, truyen damage la 1
-                enemyController.TakeDamage(1);
+                enemyController.TakeDamage(damageAmount);
             }
 
-            // explosion hit effect
+            // explosion hit effect from Prefab
             if (hitEffectPrefab != null)
             {
                 GameObject effect = Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
                 Destroy(effect, 1f);
             }
 
-            ReturnToPool();// tra vien dan ve pool
-            //Destroy(gameObject);// xoa projectile
+            gameObject.SetActive(false);
         }
     }
 
-    // ham dc goi trc khi doi tuong bi destroy
-    //void OnDestroy()
-    //{
-    //    // check if projectile destroyed by hit ?
-    //    // if no, thong bao cho PlayerShooting
-    //    if (FindObjectOfType<PlayerShooting>() != null)
-    //    {
-    //        FindObjectOfType<PlayerShooting>().OnProjectileDestroyed();
-    //    }
-    //}
-
-    // Ham xu ly viec tra ve pool
-    private void ReturnToPool()
+    public void SetTarget(GameObject enemyTarget)
     {
-        // Khi tra ve pool, thong bao cho PlayerShooting de reset trang thai ban
-        if (playerShootingScript != null)
+        target = enemyTarget;
+        if (target != null)
         {
-            playerShootingScript.OnProjectileDestroyed();
-        }
+            Vector3 direction = (target.transform.position - transform.position).normalized;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, 0, angle);
 
-        // An doi tuong de tra ve pool
-        gameObject.SetActive(false);
+            this.direction = direction;
+        }
     }
 }

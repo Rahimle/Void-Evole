@@ -12,10 +12,9 @@ GameObject:
   - component: {fileID: 6377681440968246547}
   - component: {fileID: 1382520372340171237}
   - component: {fileID: 6972274115711259720}
-  - component: {fileID: 8775400614086702600}
   m_Layer: 0
-  m_Name: player
-  m_TagString: Untagged
+  m_Name: Player
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -120,17 +119,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fec88a40e101fcd4caeb83bbd509cc8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8775400614086702600
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 471958482854907846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83089620b2a16414c8db1fbac72c33fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fireRate: 0.5
-  aimingTime: 1

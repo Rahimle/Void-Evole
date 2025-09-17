@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5039014679613847369}
   m_Layer: 0
   m_Name: Projectile
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -122,6 +122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 12
+  damageAmount: 1
   hitEffectPrefab: {fileID: 8626875574281291489, guid: 32bd16fbb0cfd57489b3401b1638f9bc, type: 3}
 --- !u!58 &3591866156629382583
 CircleCollider2D:
