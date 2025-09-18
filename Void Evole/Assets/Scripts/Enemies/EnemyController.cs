@@ -8,6 +8,7 @@ public class EnemyController : MonoBehaviour
     // Cau hinh enemy
     public float speed = 0.1f;
     public int maxHealth = 10;
+    public float damageAmount = 10f;
 
     // Tham chieu UI
     public TextMeshProUGUI healthText;
@@ -71,11 +72,11 @@ public class EnemyController : MonoBehaviour
     }
 
     // Ham va cham
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Wall"))
+        if (collision.gameObject.CompareTag("Barrier"))
         {
-            GameManager.Instance.TakeWallDamage(1);   
+            GameManager.Instance.TakeWallDamage(damageAmount);   
             gameObject.SetActive(false); 
         }
     }

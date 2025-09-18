@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,11 +10,13 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     //bien quan ly trang thai game
-    public int wallHealth = 20;
+    public float maxBarrierHealth = 100f;
+    public float currentBarrierHealth;
     public int enemiesActive { get; private set; } = 0;
 
     // bien tham chieu thanh phan UI
-    public TextMeshProUGUI uiWallHealth;    
+    public TextMeshProUGUI barrierHealthText;
+    public Slider barrierHealthSlider;
 
     // Ham thiet lap Singletone
     void Awake() 
@@ -32,7 +35,13 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        UpdateUIWallHealth(); // ham cap nhat UI hp wall
+        // Set up hp & slider at first
+        currentBarrierHealth = maxBarrierHealth;
+        if (barrierHealthSlider != null)
+        {
+            barrierHealthSlider.maxValue = maxBarrierHealth;
+        }
+        UpdateBarrierUI(); // ham cap nhat UI hp barrier
     }
 
     // Update is called once per frame
@@ -41,27 +50,32 @@ public class GameManager : MonoBehaviour
 
     }
 
-    // Ham cap nhat UI health wall
-    private void UpdateUIWallHealth()
+    // Ham cap nhat UI health barrier
+    private void UpdateBarrierUI()
     {
-        if(uiWallHealth != null) // ktra value
+        if(barrierHealthSlider != null)
         {
-            uiWallHealth.text = "Wall Health: " + wallHealth.ToString(); // cap nhat
+            barrierHealthSlider.value = currentBarrierHealth;
+        }
+
+        if(barrierHealthText != null)
+        {
+            barrierHealthText.text = "HP: " + currentBarrierHealth;
         }
     }
 
     // ham xu ly wall take damage
-    public void TakeWallDamage(int damage)
+    public void TakeWallDamage(float damage)
     {
-        wallHealth -= damage; // hp - damage taken
-        if (wallHealth < 0)
+        currentBarrierHealth -= damage; // hp - damage taken
+        if (currentBarrierHealth < 0)
         {
-            wallHealth = 0;
+            currentBarrierHealth = 0;
         }
-        UpdateUIWallHealth(); // cap nhat ui khi hp giam
+        UpdateBarrierUI(); // cap nhat ui khi hp giam
 
         // kiem tra hp wall
-        if(wallHealth <= 0)
+        if(currentBarrierHealth <= 0)
         {
             GameOver(); // call ham thua
         }
