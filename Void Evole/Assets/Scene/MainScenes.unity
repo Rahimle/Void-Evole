@@ -744,12 +744,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea32a23faacb50f499eccd03fd1e7eb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: 0
+  currentLevel: 0
   currentExp: 0
-  expToLevel: 10
+  expToLevelUp: 10
   expGrowthMultiplier: 1.2
   expSlider: {fileID: 758323565}
-  currentLevelText: {fileID: 846465551}
+  levelText: {fileID: 846465551}
 --- !u!1 &758323563
 GameObject:
   m_ObjectHideFlags: 0
