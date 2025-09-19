@@ -1,19 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;// thu vien ho tro TextMeshPro
 
 public class EnemyController : MonoBehaviour
 {
     // Cau hinh enemy
-    public float speed = 0.5f;
+    public float speed = 0.1f;
     public int maxHealth = 10;
     public float damageAmount = 10f;
-    public float expValue = 1.5f;
 
     // Tham chieu UI
-    public TextMeshProUGUI enemyHealthText;
+    public TextMeshProUGUI healthText;
 
     // Bien quan ly trang thai
     private int currentHealth;
@@ -23,9 +21,9 @@ public class EnemyController : MonoBehaviour
     {
         // Resey enemy's hp & update UI
         currentHealth = maxHealth;
-        if(enemyHealthText != null)
+        if(healthText != null)
         {
-            enemyHealthText.text = "HP: " + currentHealth.ToString();
+            healthText.text = "HP: " + currentHealth.ToString();
         }
 
         // Thong bao GameManager Addenemy dc kich hoat
@@ -37,17 +35,10 @@ public class EnemyController : MonoBehaviour
 
     void OnDisable()
     {
-        // Thong bao GameManger Remove enemy dc kich hoat
+        // Thong bao GameManger Removeenemy dc kich hoat
         if(GameManager.Instance != null)
         {
             GameManager.Instance.RemoveEnemy();
-        }
-
-        // Gui exp ve ExpManager khi enemy destroyed
-        ExpManager expManager = FindObjectOfType<ExpManager>();
-        if(expManager != null )
-        {
-            expManager.GainExperience(expValue);
         }
     }
 
@@ -68,9 +59,9 @@ public class EnemyController : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        if(enemyHealthText != null)
+        if(healthText != null)
         {
-            enemyHealthText.text = "HP: " + currentHealth.ToString(); // update Ui
+            healthText.text = "HP: " + currentHealth.ToString(); // update Ui
         }
 
         if(currentHealth <= 0) // neu hp enemy <= 0
