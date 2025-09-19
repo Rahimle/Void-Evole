@@ -1978,6 +1978,10 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2055320195752483534, guid: d2a80f9d48edca94898439d65db3a347, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3699663174825996984, guid: d2a80f9d48edca94898439d65db3a347, type: 3}
       propertyPath: m_Name
       value: Barrier
