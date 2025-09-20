@@ -37,10 +37,17 @@ public class GameManager : MonoBehaviour
     {
         // Set up hp & slider at first
         currentBarrierHealth = maxBarrierHealth;
-        if (barrierHealthSlider != null)
-        {
-            barrierHealthSlider.maxValue = maxBarrierHealth;
-        }
+        GameObject barrierHealthSliderObject = GameObject.Find("BarrierHealthSlider");
+        //if (barrierHealthSliderObject != null)
+        //{
+        //    barrierHealthSlider = barrierHealthSliderObject.GetComponent<Slider>();
+        //}
+
+        //GameObject barrierHealthTextObject = GameObject.Find("BarrierHealthText");
+        //if (barrierHealthTextObject != null)
+        //{
+        //    barrierHealthText = barrierHealthTextObject.GetComponent<TextMeshProUGUI>();
+        //}
         UpdateBarrierUI(); // ham cap nhat UI hp barrier
     }
 
@@ -55,12 +62,13 @@ public class GameManager : MonoBehaviour
     {
         if(barrierHealthSlider != null)
         {
+            barrierHealthSlider.maxValue = maxBarrierHealth;
             barrierHealthSlider.value = currentBarrierHealth;
         }
 
         if(barrierHealthText != null)
         {
-            barrierHealthText.text = "HP: " + currentBarrierHealth;
+            barrierHealthText.text = currentBarrierHealth + " / " + maxBarrierHealth;
         }
     }
 
