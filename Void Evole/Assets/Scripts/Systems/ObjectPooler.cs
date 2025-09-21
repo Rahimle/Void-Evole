@@ -14,6 +14,11 @@ public class ObjectPooler : MonoBehaviour
     public int enemyPoolSize = 5; 
     private List<GameObject> pooledEnemies;
 
+    // Bien hieu ung no
+    public GameObject effectHitPrefab;
+    public int effectHitPoolSize = 5;
+    private List<GameObject> pooledEffectHits;
+
     // Setup Singleton
     public static ObjectPooler Instance;
 
@@ -52,6 +57,15 @@ public class ObjectPooler : MonoBehaviour
             pooledEnemies.Add(enemy);
         }
 
+        // Khoi tao Pool hieu ung no
+        pooledEffectHits = new List<GameObject>();
+        for (int i = 0; i < effectHitPoolSize; i++)
+        {
+            GameObject effect = Instantiate(effectHitPrefab);
+            effect.SetActive(false);
+            pooledEffectHits.Add(effect);
+        }
+
     }
 
     // Update is called once per frame
@@ -79,6 +93,7 @@ public class ObjectPooler : MonoBehaviour
         return newProjectile;
     }
 
+    // Ham lay Enemy
     public GameObject GetPooledEnemy()
     {
         foreach (GameObject enemy in pooledEnemies)
@@ -94,5 +109,23 @@ public class ObjectPooler : MonoBehaviour
 
         newEnemy.SetActive(true);
         return newEnemy;
+    }
+
+    // Ham lay hieu ung no
+    public GameObject GetPooledEffectHit()
+    {
+        foreach (GameObject effect in pooledEffectHits)
+        {
+            if (!effect.activeInHierarchy)
+            {
+                effect.SetActive(true);
+                return effect;
+            }
+        }
+
+        GameObject newEffect = Instantiate(effectHitPrefab);
+        pooledEffectHits.Add(newEffect);
+        newEffect.SetActive(true);
+        return newEffect;
     }
 }

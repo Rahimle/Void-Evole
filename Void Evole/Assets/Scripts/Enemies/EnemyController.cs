@@ -6,9 +6,10 @@ using TMPro;// thu vien ho tro TextMeshPro
 public class EnemyController : MonoBehaviour
 {
     // Cau hinh enemy
-    public float speed = 0.1f;
+    public float speed = 1f;
     public int maxHealth = 10;
     public float damageAmount = 10f;
+    public float pushForce = 2f;
 
     // Tham chieu UI
     public TextMeshProUGUI healthText;
@@ -78,6 +79,16 @@ public class EnemyController : MonoBehaviour
         {
             GameManager.Instance.TakeWallDamage(damageAmount);   
             gameObject.SetActive(false); 
+        }
+        else if (collision.gameObject.CompareTag("Enemy")) // Them logic va cham giua cac ke dich
+        {
+            Rigidbody2D rb = GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                // them luc push enemy
+                Vector2 pushDirection = (transform.position - collision.transform.position).normalized;
+                rb.AddForce(pushDirection * pushForce, ForceMode2D.Impulse);
+            }
         }
     }
 }

@@ -79,17 +79,17 @@ public class SpawnManager : MonoBehaviour
     }
 
     // Ham va cham
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.CompareTag("Enemy"))
-        {
-            Rigidbody2D rb = GetComponent<Rigidbody2D>();
-            if(rb != null)
-            {
-                // them luc push enemy
-                Vector2 pushDirection = (transform.position - collision.transform.position).normalized;
-                rb.AddForce(pushDirection * 2f, ForceMode2D.Impulse);
-            }
-        }
-    }
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    if(collision.gameObject.CompareTag("Enemy"))
+    //    {
+    //        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+    //        if(rb != null)
+    //        {
+    //            // them luc push enemy
+    //            Vector2 pushDirection = (transform.position - collision.transform.position).normalized;
+    //            rb.AddForce(pushDirection * 2f, ForceMode2D.Impulse);
+    //        }
+    //    }
+    //}
 }
