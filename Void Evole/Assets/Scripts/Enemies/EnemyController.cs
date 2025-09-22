@@ -5,16 +5,30 @@ using TMPro;// thu vien ho tro TextMeshPro
 
 public class EnemyController : MonoBehaviour
 {
-    // Cau hinh enemy
-    public float speed = 0.1f;
+    // Status enemy
+    public float speed = 1f;
     public int maxHealth = 10;
     public float damageAmount = 10f;
 
+    // Physics and Push
+    public float pushForce = 2f;
+
     // Tham chieu UI
     public TextMeshProUGUI healthText;
+    private Rigidbody2D rb;
 
-    // Bien quan ly trang thai
+    // Manage status
     private int currentHealth;
+
+    // Ham Awake dc goi khi GameObject dc tao
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();// lay tham chieu Rigid 1 lan duy nhat
+        if(rb != null )
+        {
+            Debug.Log("Rigidbody2D is missing on " + gameObject.name);
+        }
+    }
 
     // Ham lam viec voi Object Pooler
     void OnEnable()
@@ -26,33 +40,46 @@ public class EnemyController : MonoBehaviour
             healthText.text = "HP: " + currentHealth.ToString();
         }
 
-        // Thong bao GameManager Addenemy dc kich hoat
+        // Anoucement to GameManager when Add
         if(GameManager.Instance != null)
         {
             GameManager.Instance.AddEnemy();
         }
     }
-
     void OnDisable()
     {
-        // Thong bao GameManger Removeenemy dc kich hoat
+        // Anoucement to GameManager when Remove
         if(GameManager.Instance != null)
         {
             GameManager.Instance.RemoveEnemy();
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    // Ham su dung van toc cua Rigidbody2D de di chuyen
+    void FixedUpdate()
     {
-
+        if (rb != null)
+        {
+            rb.velocity = Vector2.left * speed;
+        }
     }
-
-    // Update is called once per frame
-    void Update()
+    // Ham va cham
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Di chuyen enemy sang trai
-        transform.Translate(Vector2.left * speed * Time.deltaTime);
+        if (collision.gameObject.CompareTag("Barrier"))
+        {
+            GameManager.Instance.TakeWallDamage(damageAmount);
+            gameObject.SetActive(false);
+        }
+        else if (collision.gameObject.CompareTag("Enemy")) // Them logic va cham giua cac ke dich
+        {
+            if (rb != null)
+            {
+                // them luc push enemy
+                Vector2 pushDirection = (transform.position - collision.transform.position).normalized;
+                rb.AddForce(pushDirection * pushForce, ForceMode2D.Impulse);
+            }
+        }
     }
 
     // Ham take damage from player's projectile
@@ -68,16 +95,6 @@ public class EnemyController : MonoBehaviour
         {
             // vo hieu hoa enemy, kich hoat OnDisable()
             gameObject.SetActive(false);
-        }
-    }
-
-    // Ham va cham
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Barrier"))
-        {
-            GameManager.Instance.TakeWallDamage(damageAmount);   
-            gameObject.SetActive(false); 
         }
     }
 }

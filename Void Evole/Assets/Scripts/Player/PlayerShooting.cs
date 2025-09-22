@@ -1,47 +1,40 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PlayerShooting : MonoBehaviour
 {
-    // Cau hinh shooting
-    public float fireRate = 0.5f;
+    // Status shooting
     public float shootingRange = 10f;
-
-    // Bien quan ly trang thai
-    private float fireTimer = 0f;
-    private bool isShooting = false;
     public Transform firepoint;
+    private float fireTimer = 0f;
 
+    // Tham chieu den PlayerInteraction
+    public PlayerInteraction playerInteraction;
 
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("PlayerShooting is attached to: " + gameObject.name + " at position: " + transform.position);
+        
     }
 
+    // Update is called once per frame
     void Update()
     {
-        // Space turn on/off to shoot
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            isShooting = !isShooting;
-            Debug.Log("Shooting State changed to " + isShooting);
-        }
-
-        if (isShooting)
+        if(playerInteraction.isShooting)
         {
             fireTimer += Time.deltaTime;
-
-            // kiem tra thoi gian ban
-            if (fireTimer >= fireRate)
+            if(fireTimer >= playerInteraction.attackSpeed)
             {
+                // Tim ke thu va ban
                 GameObject targetEnemy = FindNearestEnemy();
                 if(targetEnemy != null)
                 {
                     Shoot(targetEnemy);
                 }
-                fireTimer = 0f; // reset time 
+                // reset time
+                fireTimer = 0f;
             }
         }
     }
@@ -51,13 +44,26 @@ public class PlayerShooting : MonoBehaviour
     {
         // Get projectile from Object Pooler
         GameObject projectileInstance = ObjectPooler.Instance.GetPooledProjectile();
-        if(projectileInstance != null)
+        if (projectileInstance != null)
         {
-            // Dat vi tri cua vien dan tai Firepoint
-            projectileInstance.transform.position = transform.position;
+            // Xac dinh vi tri va huong ban
+            Vector3 startPosition;
+
+            // Neu co FirePoint, dung vi tri FirePoint/ Neu ko co dung vi tri Player
+            if (firepoint != null)
+            {
+                startPosition = firepoint.position;
+            }
+            else
+            {
+                startPosition = transform.position;
+            }
+
+            // Set up vi tri va huong cho vien dan
+            projectileInstance.transform.position = startPosition;
             projectileInstance.transform.rotation = Quaternion.identity; // Do nghieng cua vien dan
 
-            // truyen vi tri cho projectile
+            // Truyen muc tieu cho script ProjectileController
             ProjectileController projectileScript = projectileInstance.GetComponent<ProjectileController>();
             if (projectileScript != null)
             {
@@ -72,23 +78,29 @@ public class PlayerShooting : MonoBehaviour
     {
         // Xac dinh all enemy tren scene
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        GameObject nearest = null;
+        GameObject nearestEnemy = null;
         float minDistance = Mathf.Infinity;
 
-        foreach(GameObject enemy in enemies)
-        {
-            if(enemy.transform.position.x > transform.position.x)
-            {
-                float distance = Vector2.Distance(firepoint.position, enemy.transform.position);
+        // Vi tri Player
+        Vector2 playerPosition = transform.position;
 
-                // Only xet nhung enemy trong range shoot
-                if (distance < minDistance && distance <= shootingRange)
-                {
-                    minDistance = distance;
-                    nearest = enemy;
-                }
+        // Duyet tung ke thu, tim nearest
+        foreach (GameObject enemy in enemies)
+        {
+            if (enemy.transform.position.x <= playerPosition.x)
+            {
+                continue;
+                
+            }
+            float distance = Vector2.Distance(playerPosition, enemy.transform.position);
+
+            // Only xet nhung enemy trong range shoot
+            if (distance < minDistance && distance < shootingRange)
+            {
+                minDistance = distance;
+                nearestEnemy = enemy;
             }
         }
-        return nearest;
+        return nearestEnemy;
     }
 }

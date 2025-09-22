@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5595242151588172856}
   - component: {fileID: 3126608511312619570}
   - component: {fileID: 6593658286795209562}
-  - component: {fileID: 5072522251996436762}
   - component: {fileID: 3591866156629382583}
   - component: {fileID: 5039014679613847369}
   m_Layer: 0
@@ -31,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -6.5319815, y: 0.51062655, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -109,21 +108,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5072522251996436762
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8402130770565136590}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65524f7dea77d674d9de1659eaa8e8d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 12
-  damageAmount: 1
-  hitEffectPrefab: {fileID: 8626875574281291489, guid: 32bd16fbb0cfd57489b3401b1638f9bc, type: 3}
 --- !u!58 &3591866156629382583
 CircleCollider2D:
   m_ObjectHideFlags: 0

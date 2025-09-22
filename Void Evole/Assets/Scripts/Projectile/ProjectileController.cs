@@ -7,9 +7,7 @@ public class ProjectileController : MonoBehaviour
     // Cau hinh Projectile
     public float speed = 10f;
     public int damageAmount = 1;
-
-    // Bien tham chieu Prefab
-    public GameObject hitEffectPrefab;// bien hieu ung khi hit enemy
+    public float lifeTime = 5f;
 
     // Bien quan ly trang thai
     private GameObject target;
@@ -26,17 +24,27 @@ public class ProjectileController : MonoBehaviour
     void Update()
     {
         lifeTimer += Time.deltaTime;
-        if (lifeTimer >= 5f)
+        if (lifeTimer >= lifeTime)
         {
             gameObject.SetActive(false);
+        }
+        if (target != null && target.activeInHierarchy) // update projectile way if target appear
+        {
+            direction = (target.transform.position - transform.position).normalized;
+            transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
+        }
+        else // if no enemy appear
+        {
+            gameObject.SetActive(false); // Vo hieu hoa vien dan
         }
         transform.position += direction * speed * Time.deltaTime;
     }
 
-    // Ham reset time between shooting
+    // Ham reset time object activated from pool
     void OnEnable()
     {
         lifeTimer = 0f;
+        target = null;
     }
 
     // Ham va cham
@@ -50,11 +58,11 @@ public class ProjectileController : MonoBehaviour
                 enemyController.TakeDamage(damageAmount);
             }
 
-            // explosion hit effect from Prefab
-            if (hitEffectPrefab != null)
+            // explosion hit effect from Pooler
+            GameObject hitEffect = ObjectPooler.Instance.GetPooledEffectHit();
+            if (hitEffect != null)
             {
-                GameObject effect = Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
-                Destroy(effect, 1f);
+                hitEffect.transform.position = transform.position;
             }
 
             gameObject.SetActive(false);
