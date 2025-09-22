@@ -5,17 +5,21 @@ using UnityEngine;
 public class ProjectileEffectHit : MonoBehaviour
 {
     // Time alive of effect 
-    public float destroyTime = 1f;
+    public float lifeTime = 0.5f;
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
-        Destroy(gameObject,destroyTime);
+        // Active Coroutine to auto deactive effect
+        StartCoroutine(DeactivateAfterTime());
     }
 
-    // Update is called once per frame
-    void Update()
+    // Coroutine 
+    private IEnumerator DeactivateAfterTime()
     {
-        
+        // Wait for timelife
+        yield return new WaitForSeconds(lifeTime);
+
+        // deactive and return pool
+        gameObject.SetActive(false);
     }
 }

@@ -43,7 +43,7 @@ public class PlayerShooting : MonoBehaviour
     void Shoot(GameObject targetEnemy)
     {
         // Get projectile from Object Pooler
-        GameObject projectileInstance = ObjectPooler.Instance.GetPooledProjectile();
+        GameObject projectileInstance = ObjectPooler.Instance.GetPooledObject("Projectile");
         if (projectileInstance != null)
         {
             // Xac dinh vi tri va huong ban

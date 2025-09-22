@@ -18,7 +18,7 @@ public class EnemyController : MonoBehaviour
     private Rigidbody2D rb;
 
     // Manage status
-    private int currentHealth;
+    private float currentHealth;
 
     // Ham Awake dc goi khi GameObject dc tao
     private void Awake()
@@ -30,7 +30,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    // Ham lam viec voi Object Pooler
+    // Work with Object Pooler
     void OnEnable()
     {
         // Resey enemy's hp & update UI
@@ -83,7 +83,7 @@ public class EnemyController : MonoBehaviour
     }
 
     // Ham take damage from player's projectile
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         currentHealth -= damage;
         if(healthText != null)
@@ -93,6 +93,11 @@ public class EnemyController : MonoBehaviour
 
         if(currentHealth <= 0) // neu hp enemy <= 0
         {
+            // gain exp when enemy die
+            if(ExpManager.Instance != null)
+            {
+                ExpManager.Instance.GainExperience(5);
+            }
             // vo hieu hoa enemy, kich hoat OnDisable()
             gameObject.SetActive(false);
         }

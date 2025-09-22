@@ -7,54 +7,66 @@ using TMPro;
 
 public class ExpManager : MonoBehaviour
 {
-    // Tao cac bien
-    public int level; // bien level
-    public int currentExp; // bien exp hien tai
-    public int expToLevel = 10; // 10 la gia tri can reach de level up
-    public float expGrowthMultiplier = 1.2f; // he so tang truong exp, add 20% more exp to level up
+    // Singleton Exp
+    public static ExpManager Instance { get; private set; }
+
+    // Exp Status
+    public int level; 
+    public int currentExp; 
+    public int expToLevel = 10; 
+    public float expGrowthMultiplier = 1.2f;
+
+    // Tham chieu UI
     public Slider expSlider;
     public TMP_Text currentLevelText;
-    
+
+    // Awake Singleton
+    private void Awake()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         UpdateUI();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.R))
-        {
-            GainExperience(2);
-        }
-    }
-
-    // Ham nhan exp
+    // Gain Exp
     public void GainExperience(int amount)
     {
-        currentExp += amount; // tang exp
-        if(currentExp > expToLevel ) // ktra neu exp reach muc 10
+        // Exp Inrease
+        currentExp += amount;
+
+        // Loops for Level up 
+        while (currentExp >= expToLevel)
         {
-            LevelUp(); // goi ham level up
+            LevelUp();
         }
         UpdateUI();
     }
 
-    // Ham level up
+    // Level Up
     private void LevelUp()
     {
-        level++; // len level 
-        currentExp -= expToLevel; // exp hien tai - exp muc = exp con thua
-        // exp de len level = exp  hien tai * he so tang truong
+        level++; 
+        currentExp -= expToLevel; 
         expToLevel = Mathf.RoundToInt( expToLevel * expGrowthMultiplier);
     }
 
-    // Ham cap nhat UI 
+    // Update UI
     public void UpdateUI()
     {
-        expSlider.maxValue = expToLevel; // set max value
-        expSlider.value = currentExp; // cap nhat value 
-        currentLevelText.text = "Level " + level; // hien thi level++
+        expSlider.maxValue = expToLevel;
+        expSlider.value = currentExp; 
+        currentLevelText.text = "Level " + level;
     }
 }

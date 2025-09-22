@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 5001166474299053810}
   - component: {fileID: 6377681440968246547}
   - component: {fileID: 1382520372340171237}
+  - component: {fileID: 1146211986068152688}
+  - component: {fileID: 3751162584867087236}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -107,6 +109,36 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1146211986068152688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 471958482854907846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11152adec961765458f5f69a4a98c514, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackDamage: 2
+  attackSpeed: 0.5
+  isShooting: 0
+--- !u!114 &3751162584867087236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 471958482854907846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 376285f8cfb4c86469cfee8d658faa24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shootingRange: 10
+  firepoint: {fileID: 1543574803214648447, guid: 0a3df5c4d10070f4aa6f3c0f3a03d506, type: 3}
+  playerInteraction: {fileID: 1146211986068152688}
 --- !u!1001 &5481650243097239921
 PrefabInstance:
   m_ObjectHideFlags: 0

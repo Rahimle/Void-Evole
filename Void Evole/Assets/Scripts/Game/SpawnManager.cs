@@ -6,31 +6,26 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    // Cau hinh Wave (chinh sua trong inspector)
-    public int baseEnemies = 1; // quantity of enemy each wave
-    public float waveCoolDown = 5f; // time dem nguoc between waves
+    // Wave Status
+    public int baseEnemies = 1; 
+    public float waveCoolDown = 5f; 
 
-    // bien tham chieu UI 
+    // Tham chieu UI
     public TextMeshProUGUI waveText;
     public TextMeshProUGUI countdownText;
 
-    // bien quan ly trang thai
+    // Manage Status
     private int currentWave = 1;
     private int enemiesToSpawn;
 
     // Start is called before the first frame update
     void Start()
     {
-        // goi ham coroutine bat dau wave
+        // Funct start Coroutine
         StartCoroutine(SpawnWavesRoutine());
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
+    // Rountine Waves
     private IEnumerator SpawnWavesRoutine()
     {
         // endless loop for waves
@@ -63,10 +58,10 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    // Ham spawn enemy
+    // Spawn
     void SpawnEnemy()
     {
-        GameObject enemy = ObjectPooler.Instance.GetPooledEnemy();
+        GameObject enemy = ObjectPooler.Instance.GetPooledObject("Enemy");
         if(enemy != null)
         {
             // cap nhat vi tri
@@ -77,19 +72,4 @@ public class SpawnManager : MonoBehaviour
         }
 
     }
-
-    // Ham va cham
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    if(collision.gameObject.CompareTag("Enemy"))
-    //    {
-    //        Rigidbody2D rb = GetComponent<Rigidbody2D>();
-    //        if(rb != null)
-    //        {
-    //            // them luc push enemy
-    //            Vector2 pushDirection = (transform.position - collision.transform.position).normalized;
-    //            rb.AddForce(pushDirection * 2f, ForceMode2D.Impulse);
-    //        }
-    //    }
-    //}
 }

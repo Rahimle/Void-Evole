@@ -6,19 +6,19 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    // bien Singleton GameManager
+    // Singleton Game
     public static GameManager Instance { get; private set; }
 
-    //bien quan ly trang thai game
+    // Status Game
     public float maxBarrierHealth = 100f;
     public float currentBarrierHealth;
     public int enemiesActive { get; private set; } = 0;
 
-    // bien tham chieu thanh phan UI
+    // Tham chieu UI
     public TextMeshProUGUI barrierHealthText;
     public Slider barrierHealthSlider;
 
-    // Ham thiet lap Singletone
+    // Awake Singletone
     void Awake() 
     {
         if(Instance == null)
@@ -37,60 +37,24 @@ public class GameManager : MonoBehaviour
     {
         // Set up hp & slider at first
         currentBarrierHealth = maxBarrierHealth;
-        GameObject barrierHealthSliderObject = GameObject.Find("BarrierHealthSlider");
-        //if (barrierHealthSliderObject != null)
-        //{
-        //    barrierHealthSlider = barrierHealthSliderObject.GetComponent<Slider>();
-        //}
-
-        //GameObject barrierHealthTextObject = GameObject.Find("BarrierHealthText");
-        //if (barrierHealthTextObject != null)
-        //{
-        //    barrierHealthText = barrierHealthTextObject.GetComponent<TextMeshProUGUI>();
-        //}
-        UpdateBarrierUI(); // ham cap nhat UI hp barrier
+        UpdateBarrierUI(); // Call func update UI
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    // Ham cap nhat UI health barrier
-    private void UpdateBarrierUI()
-    {
-        if(barrierHealthSlider != null)
-        {
-            barrierHealthSlider.maxValue = maxBarrierHealth;
-            barrierHealthSlider.value = currentBarrierHealth;
-        }
-
-        if(barrierHealthText != null)
-        {
-            barrierHealthText.text = currentBarrierHealth + " / " + maxBarrierHealth;
-        }
-    }
-
-    // ham xu ly wall take damage
+    // Take Damage
     public void TakeWallDamage(float damage)
     {
-        currentBarrierHealth -= damage; // hp - damage taken
-        if (currentBarrierHealth < 0)
-        {
-            currentBarrierHealth = 0;
-        }
-        UpdateBarrierUI(); // cap nhat ui khi hp giam
+        currentBarrierHealth -= damage; // Hp decrease
+        currentBarrierHealth = Mathf.Max(currentBarrierHealth,0); // HP can't not negative
+        UpdateBarrierUI(); // Update UI
 
-        // kiem tra hp wall
+        // Check HP Barrier
         if(currentBarrierHealth <= 0)
         {
-            GameOver(); // call ham thua
+            GameOver(); // Call func if lose
         }
         
     }
-
-    // Cac ham Add, Remove, GameOver
+    // Add & Remove
     public void AddEnemy()
     {
         enemiesActive++; // spawn enemy
@@ -99,6 +63,22 @@ public class GameManager : MonoBehaviour
     {
         enemiesActive--; // remove enemy
     }
+    
+    // Update Ui Barrier
+    private void UpdateBarrierUI()
+    {
+        if (barrierHealthSlider != null)
+        {
+            barrierHealthSlider.maxValue = maxBarrierHealth;
+            barrierHealthSlider.value = currentBarrierHealth;
+        }
+
+        if (barrierHealthText != null)
+        {
+            barrierHealthText.text = currentBarrierHealth + " / " + maxBarrierHealth;
+        }
+    }
+    // GameOver
     void GameOver()
     {
         Debug.Log("Game Over!");
