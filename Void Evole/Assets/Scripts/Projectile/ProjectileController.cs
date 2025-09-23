@@ -32,7 +32,17 @@ public class ProjectileController : MonoBehaviour
             gameObject.SetActive(false);
             return;
         }
-        transform.position += direction * speed * Time.deltaTime;
+
+        // Update way if target exist
+        if (target != null)
+        {
+            direction = (target.transform.position - transform.position).normalized;
+            transform.position += direction * speed * Time.deltaTime;
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     // Ham va cham
@@ -40,10 +50,10 @@ public class ProjectileController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            EnemyController enemyController = collision.gameObject.GetComponent<EnemyController>();
-            if (enemyController != null)
+            EnemyController enemy = collision.gameObject.GetComponent<EnemyController>();
+            if (enemy != null)
             {
-                enemyController.TakeDamage(playerInteraction.attackDamage);
+                enemy.TakeDamage(playerInteraction.attackDamage);
             }
 
             // explosion hit effect from Pooler
@@ -57,7 +67,7 @@ public class ProjectileController : MonoBehaviour
         }
     }
 
-    // Ham muc tieu
+    // Set target
     public void SetTarget(GameObject enemyTarget)
     {
         target = enemyTarget;
@@ -71,5 +81,10 @@ public class ProjectileController : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
+    }
+    // ProjectileController
+    public void SetPlayerInteraction(PlayerInteraction interaction)
+    {
+        playerInteraction = interaction;
     }
 }

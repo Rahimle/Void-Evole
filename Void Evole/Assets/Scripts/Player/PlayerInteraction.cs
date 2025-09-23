@@ -22,7 +22,7 @@ public class PlayerInteraction : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            isShooting = true;
+            isShooting = !isShooting;
             Debug.Log("Shooting status is changed to " + isShooting);
         }
     }

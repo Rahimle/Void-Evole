@@ -24,10 +24,13 @@ public class EnemyController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();// lay tham chieu Rigid 1 lan duy nhat
-        if(rb != null )
+        if(rb == null )
         {
-            Debug.Log("Rigidbody2D is missing on " + gameObject.name);
+            Debug.LogError("Rigidbody2D is missing on " + gameObject.name);
         }
+
+        // Tham chieu Health Text
+        healthText = GetComponentInChildren<TextMeshProUGUI>();
     }
 
     // Work with Object Pooler
@@ -35,10 +38,7 @@ public class EnemyController : MonoBehaviour
     {
         // Resey enemy's hp & update UI
         currentHealth = maxHealth;
-        if(healthText != null)
-        {
-            healthText.text = "HP: " + currentHealth.ToString();
-        }
+        UpdateHealthUI();
 
         // Anoucement to GameManager when Add
         if(GameManager.Instance != null)
@@ -100,6 +100,15 @@ public class EnemyController : MonoBehaviour
             }
             // vo hieu hoa enemy, kich hoat OnDisable()
             gameObject.SetActive(false);
+        }
+    }
+
+    // Update Health Text UI
+    private void UpdateHealthUI()
+    {
+        if(healthText != null)
+        {
+            healthText.text = "HP: " + currentHealth.ToString();
         }
     }
 }

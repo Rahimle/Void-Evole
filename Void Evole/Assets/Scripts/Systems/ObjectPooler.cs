@@ -72,6 +72,11 @@ public class ObjectPooler : MonoBehaviour
         
         // 2.Get object from queue
         Queue<GameObject> objectQueue = poolDictionary[tag];
+        if (objectQueue.Count == 0) // Check if pool have object to get
+        {
+            Debug.LogWarning("Pool " + tag + " is empty.");
+            return null;
+        }
         GameObject objectToSpawn = objectQueue.Dequeue();
 
         // 3.Active object and bring to use

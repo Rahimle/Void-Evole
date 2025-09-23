@@ -137,7 +137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shootingRange: 10
-  firepoint: {fileID: 1543574803214648447, guid: 0a3df5c4d10070f4aa6f3c0f3a03d506, type: 3}
+  firepoint: {fileID: 6447284124777768206}
   playerInteraction: {fileID: 1146211986068152688}
 --- !u!1001 &5481650243097239921
 PrefabInstance:

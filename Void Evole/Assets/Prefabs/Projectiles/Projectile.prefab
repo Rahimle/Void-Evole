@@ -185,4 +185,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   lifeTime: 5
-  playerInteraction: {fileID: 1146211986068152688, guid: fb8e996ce8c8a774382bcdf8c3d8da38, type: 3}
+  playerInteraction: {fileID: 0}

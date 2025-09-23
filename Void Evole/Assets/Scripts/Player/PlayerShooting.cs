@@ -7,29 +7,24 @@ public class PlayerShooting : MonoBehaviour
 {
     // Status shooting
     public float shootingRange = 10f;
-    public Transform firepoint;
+    public Transform firePoint;
     private float fireTimer = 0f;
 
     // Tham chieu den PlayerInteraction
     public PlayerInteraction playerInteraction;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
-        if(playerInteraction.isShooting)
+        // Checking status shooting
+        if(playerInteraction != null && playerInteraction.isShooting)
         {
             fireTimer += Time.deltaTime;
-            if(fireTimer >= playerInteraction.attackSpeed)
+            if(fireTimer >= 1 / playerInteraction.attackSpeed)
             {
-                // Tim ke thu va ban
+                // Find enemy & Shoot
                 GameObject targetEnemy = FindNearestEnemy();
-                if(targetEnemy != null)
+                if (targetEnemy != null)
                 {
                     Shoot(targetEnemy);
                 }
@@ -46,29 +41,24 @@ public class PlayerShooting : MonoBehaviour
         GameObject projectileInstance = ObjectPooler.Instance.GetPooledObject("Projectile");
         if (projectileInstance != null)
         {
-            // Xac dinh vi tri va huong ban
-            Vector3 startPosition;
-
-            // Neu co FirePoint, dung vi tri FirePoint/ Neu ko co dung vi tri Player
-            if (firepoint != null)
-            {
-                startPosition = firepoint.position;
-            }
-            else
-            {
-                startPosition = transform.position;
-            }
-
-            // Set up vi tri va huong cho vien dan
-            projectileInstance.transform.position = startPosition;
-            projectileInstance.transform.rotation = Quaternion.identity; // Do nghieng cua vien dan
+            
+            // Active projectile
+            projectileInstance.SetActive(true);
 
             // Truyen muc tieu cho script ProjectileController
             ProjectileController projectileScript = projectileInstance.GetComponent<ProjectileController>();
             if (projectileScript != null)
             {
-                projectileScript.SetTarget(targetEnemy); // nhan 1 target
+                projectileScript.SetPlayerInteraction(playerInteraction); // Truyen tham chieu
+                projectileScript.SetTarget(targetEnemy); // Truyen muc tieu
             }
+
+            // Xac dinh vi tri va huong ban
+            Vector3 startPosition = firePoint != null ? firePoint.position : transform.position;
+
+            // Set up vi tri va huong cho vien dan
+            projectileInstance.transform.position = startPosition;
+            projectileInstance.transform.rotation = Quaternion.identity; // Do nghieng cua vien dan
 
         }
     }
@@ -78,6 +68,7 @@ public class PlayerShooting : MonoBehaviour
     {
         // Xac dinh all enemy tren scene
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        Debug.Log("Found " + enemies.Length + " enemy has tag 'Enemy'.");
         GameObject nearestEnemy = null;
         float minDistance = Mathf.Infinity;
 
@@ -95,7 +86,7 @@ public class PlayerShooting : MonoBehaviour
             float distance = Vector2.Distance(playerPosition, enemy.transform.position);
 
             // Only xet nhung enemy trong range shoot
-            if (distance < minDistance && distance < shootingRange)
+            if (distance < minDistance)
             {
                 minDistance = distance;
                 nearestEnemy = enemy;
