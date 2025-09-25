@@ -6,7 +6,7 @@ using TMPro;// thu vien ho tro TextMeshPro
 public class EnemyController : MonoBehaviour
 {
     // Status enemy
-    public float speed = 1f;
+    public float speed = 2f;
     public int maxHealth = 10;
     public float damageAmount = 10f;
 
@@ -93,6 +93,11 @@ public class EnemyController : MonoBehaviour
 
         if(currentHealth <= 0) // neu hp enemy <= 0
         {
+            // gain score each enemy
+            if(GameManager.Instance != null)
+            {
+                GameManager.Instance.AddScore(10);
+            }
             // gain exp when enemy die
             if(ExpManager.Instance != null)
             {

@@ -19,6 +19,13 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI barrierHealthText;
     public Slider barrierHealthSlider;
 
+    // Manager Score
+    public int currentScore = 0;
+    public int highScore = 0;
+    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI highscoreText;
+
+
     // Awake Singletone
     void Awake() 
     {
@@ -39,6 +46,24 @@ public class GameManager : MonoBehaviour
         // Set up hp & slider at first
         currentBarrierHealth = maxBarrierHealth;
         UpdateBarrierUI(); // Call func update UI
+
+        // Down high score from PlayerPrefs
+        highScore = PlayerPrefs.GetInt("High Score", 0);
+        currentScore = 0;
+        UpdateScoreUI(); // update score UI
+    }
+
+    // Update Score
+    public void UpdateScoreUI()
+    {
+        if(scoreText != null)
+        {
+            scoreText.text = "Score: " + currentScore.ToString();
+        }
+        if(highscoreText != null)
+        {
+            highscoreText.text = "High Score: " + highScore.ToString();
+        }
     }
 
     // Take Damage
@@ -56,6 +81,11 @@ public class GameManager : MonoBehaviour
         
     }
     // Add & Remove
+    public void AddScore(int amount)
+    {
+        currentScore += amount;
+        UpdateScoreUI();
+    }
     public void AddEnemy()
     {
         enemiesActive++; // spawn enemy
@@ -82,7 +112,15 @@ public class GameManager : MonoBehaviour
     // GameOver
     private void GameOver()
     {
+        // Save Score
+        if(currentScore > highScore)
+        {
+            highScore = currentScore;
+            PlayerPrefs.SetInt("High Score", highScore);
+        }
+
         Debug.Log("Game Over! Loading GameOver Scene...");
+        Destroy(gameObject);
         SceneManager.LoadScene("GameOverScene");
     }
 }
