@@ -84,7 +84,6 @@ public class ObjectPooler : MonoBehaviour
 
         // 4.Return object back to queue
         objectQueue.Enqueue(objectToSpawn);
-
         return objectToSpawn;
     }
 }
